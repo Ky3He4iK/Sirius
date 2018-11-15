@@ -3,7 +3,54 @@
     width: 1000px;
 }
 
+#footer {
+    position: fixed;
+    margin: 0;
+    left: 0;
+    bottom: 0;
+    padding: 10px;
+    background: #39b54a;
+    color: #fff;
+    width: 100%;
+}
+
+
 body {
     margin-left: 200px;
     margin-right: 200px;
+    margin-bottom: 50px;
+}
+
+form {
+    position: relative;
+    width: 750px;
+    margin: 0 auto;
+}
+
+input {
+    width: 100%;
+    height: 35px;
+    padding-left: 15px;
+    border: 2px solid #7BA7AB;
+    border-radius: 5px;
+    outline: none;
+    background: #FFFFFF;
+    color: #9E9C9C;
+}
+button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 35px;
+    border: none;
+    background: #1F75FE;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+button:before {
+    content: "\f002";
+    font-family: FontAwesome;
+    font-size: 20px;
+    color: #FFFFFF;
 }

@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
+from django.conf import settings
 
 import Site
 import Map
@@ -24,8 +25,8 @@ import Api
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('map/', Map.give_map),
-    path('api/get', Api.get_school), # <int: id>
+    path('api/get', Api.get_school),
     path('api/search', Api.search),
-    # path('', Site.main_page, name="index"),
+    path('', Site.main_page, name="index"),
     path('school/<int: id>', Site.school_info),
-] + static("", document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

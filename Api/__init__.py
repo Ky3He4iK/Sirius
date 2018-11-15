@@ -49,7 +49,7 @@ template_response_search = '''
 
 def get_school(request):
     if 'id' not in request.GET:
-        return HttpResponse("I'm a teapot", content_type="text/plain", status=418)
+        return HttpResponse("I'm a teapot, I can't understand you", content_type="text/plain", status=418)
     return HttpResponse(template_response_get % str(request.GET['id']), content_type="application/json")
 
 
