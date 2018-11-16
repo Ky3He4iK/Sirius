@@ -1,33 +1,32 @@
-{% load staticfiles %}
 <html>
 <head>
-<title>Название</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-   crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
-   integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
-   crossorigin=""></script>
-<link rel="stylesheet" href="{% static "css/osm_field.css" %}">
-    <script src="{% static "js/map_init.js" %}"></script>
+    <title>Название</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+       integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+       crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+       integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+       crossorigin=""></script>
+    <link rel="stylesheet" href="/static/css/site_rules.css">
+    <script src="/static/js/map_init.js"></script>
 </head>
 <body bgcolor=#c1e1e7>
-<h1><font face = "Arial" size = "7">
-<center><b>Название сайта</b></center>
-</font></h1>
-<form action="" method="get">
-  <input name="s" placeholder="Искать здесь..." type="search">
-  <button type="submit"></button>
-</form>
-<br/>
-   <center><div id="mapid"></div></center>
-	<h2><font face = "Arial" size = "5"><center>
-        <b>Общая информация</b>
-    </center></font></h2>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-<div id="footer">&copy; Единая платформа образовательных организаций</div>
+    <h1><font face = "Arial" size = "7"><center><b>Название сайта</b></center></font></h1>
+    <div id="main_content">
+        <form action="" method="get">
+          <input name="s" placeholder="Искать здесь..." type="search">
+          <button type="submit"></button>
+        </form>
+        <br/>
+           <center><div id="mapid"></div></center>
+            <h2><font face = "Arial" size = "5"><center>
+                <b>Общая информация</b>
+            </center></font></h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+    <div id="footer">&copy; Единая платформа образовательных организаций</div>
 </body>
 </html>

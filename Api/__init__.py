@@ -1,22 +1,23 @@
 from django.http import HttpResponse
 
-
 template_response_get = '''
-{
-    "lat": [55.55, 54.45, 64.2],
-    "long": [37.43, 34.3, 35.5],
-    "name": "ПТУ №%s",
-    "addresses": ["ул. Пушкина, д. Колотушкина", "Кремль", "Коробка под мостом"],
-    "ege": {
-        "Математика": 99.9,
-        "Русский": 1.2
-    },
-    "from": 5,
-    "to": 11,
-    "director": "Владимир Владимирович",
-    "email": "vova@example.com",
-    "to_be_continued": true
-}
+[
+    {
+        "lat": [55.55, 54.45, 64.2],
+        "long": [37.43, 34.3, 35.5],
+        "name": "ПТУ №%s",
+        "addresses": ["ул. Пушкина, д. Колотушкина", "Кремль", "Коробка под мостом"],
+        "ege": {
+            "Математика": 99.9,
+            "Русский": 1.2
+        },
+        "from": 5,
+        "to": 11,
+        "director": "Владимир Владимирович",
+        "email": "vova@example.com",
+        "to_be_continued": true
+    }
+]
 '''
 
 template_response_search = '''
@@ -36,7 +37,7 @@ template_response_search = '''
         "lat": [52.55],
         "long": [35.43],
         "name": "Колледж №152",
-        "addresses": ["Бутово"],
+        "addresses": ["Южное Бутово"],
         "from": 11,
         "to": 11,
         "director": "Дмитрий Анатольевич",

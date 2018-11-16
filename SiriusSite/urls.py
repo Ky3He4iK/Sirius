@@ -25,8 +25,17 @@ import Api
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('map/', Map.give_map),
+    path('map', Map.give_map),
     path('api/get', Api.get_school),
+    path('api/get/', Api.get_school),
     path('api/search', Api.search),
+    path('api/search/', Api.search),
     path('', Site.main_page, name="index"),
+    path('main', Site.main_page, name="index"),
+    path('main/', Site.main_page, name="index"),
     path('school/<int: id>', Site.school_info),
+    path('school/<int: id>/', Site.school_info),
+    path('humans.txt', Site.humans),
+    path('search', Site.adv_search),
+    path('search/', Site.adv_search),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
