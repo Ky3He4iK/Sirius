@@ -3,6 +3,11 @@
     width: 1000px;
 }
 
+#mapid_1 {
+    height: 250px;
+    width: 500px;
+}
+
 #footer {
     position: relative;
     margin: 0;
@@ -22,6 +27,7 @@
 
 form {
     position: relative;
+    max-width: 100%;
     width: 750px;
     margin: 0 auto;
 }
@@ -36,6 +42,7 @@ input {
     background: #FFFFFF;
     color: #9E9C9C;
 }
+
 button {
     position: absolute;
     top: 0;
@@ -47,6 +54,7 @@ button {
     border-radius: 0 5px 5px 0;
     cursor: pointer;
 }
+
 button:before {
     content: "\f002";
     font-family: FontAwesome;
