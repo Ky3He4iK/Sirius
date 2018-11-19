@@ -25,14 +25,19 @@ def humans(*_, **__):
 
 
 def adv_search(request):
-    return HttpResponse("There will be search")
+    return render(request, "search.html")
 
 
 def search(request):
     name = request.GET['s']
-    return render(request, "index.html")
+    return render(request, "search.html")
 
 
 def search_results(request, payload):
-    
-    return render(request, "main_page.html")
+    return render(request, "index.html")
+
+
+def school(request):
+    if 'id' not in request.GET:
+        return redirect("/main")
+    return render(request, "school.html")

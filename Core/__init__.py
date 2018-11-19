@@ -20,6 +20,10 @@ def adv_search(**params):
     return []
 
 
+def get_school_json(ekis_id):
+    return json.dumps(get_school(ekis_id))
+
+
 def get_school(ekis_id):
     t = table[table.ekis_id == ekis_id]
     if len(t) == 0:
