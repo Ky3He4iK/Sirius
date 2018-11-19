@@ -68,20 +68,38 @@
             <div class="aboutt">
                 <ul>
                     <li>Название: {{ name_full }}</li>
-                    <li>Сайт: <a href="http://{{ site }}/">{{ site }}</a></li>
-                    <li>E-mail: {{ email }}</li>
-                    <li>Телефон: {{ phone }}</li>
-                    <li>Директор: {{ principal }}</li>
-                    <li>В школе обучаются с {{ stud_from }} по {{ stud_to }} класс</li>
-                    <li>Профили (на основании нашей аналитики): {{ prophiles }}</li>
-                    <li>Юридический адрес: {{ address }}</li>
-                    <li>ОГРН: {{ ogrn }}</li>
-                    <li>ОКАТО: {{ okato }}</li>
+                    {% if site != 'nan' %}
+                        <li>Сайт: <a href="http://{{ site }}/">{{ site }}</a></li>
+                    {% endif %}
+                    {% if email != 'nan' %}
+                        <li>E-mail: {{ email }}</li>
+                    {% endif %}
+                    {% if phone != 'nan' %}
+                        <li>Телефон: {{ phone }}</li>
+                    {% endif %}
+                    {% if principal != 'nan' %}
+                        <li>Директор: {{ principal }}</li>
+                    {% endif %}
+                    {% if stud_from != 'nan' %}
+                        <li>В школе обучаются с {{ stud_from }} по {{ stud_to }} класс</li>
+                    {% endif %}
+                    {% if prophiles != 'nan' %}
+                        <li>Профили (на основании нашей аналитики): {{ prophiles }}</li>
+                    {% endif %}
+                    {% if address != 'nan' %}
+                        <li>Юридический адрес: {{ address }}</li>
+                    {% endif %}
+                    {% if ogrn != 'nan' %}
+                        <li>ОГРН: {{ ogrn }}</li>
+                    {% endif %}
+                    {% if okato != 'nan' %}
+                        <li>ОКАТО: {{ okato }}</li>
+                    {% endif %}
                     <li>Считает себя: {% if financing != 'nan' %}
                         {{ financing }}
                     {% endif %}
                         {{ ou_type }}<br/>{{ ou_class }}</li>
-                    {% if extended_groups %}
+                    {% if extended_groups == True %}
                         <li>Есть группы продлённого дня</li>
                     {% endif %}
                     <li>Средний балл по ЕГЭ: {{ ege_mean }}</li>
@@ -161,5 +179,21 @@
 <script src="../static/lib/scroll/PageScroll2id.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key="></script>
 <script src="../static/js/commonSchool.js"></script>
+<script>
+    function onClick(e) {
+        e.openPopup();
+    }
+
+    {% for address in addresses %}
+        var marker = markers.push(L.marker(address.latLng).addTo(map));
+        {% if address.isMain %}
+            mymap.setView({{ address.latLng }}, 11);
+            marker.bindPopup({{ address.fullname }} +"\nГлавный корпус");
+        {% else %}
+            marker.bindPopup({{ address.fullname }});
+        {% endif %}
+        marker.on('click', onClick);
+    {% endfor %}
+</script>
 </body>
 </html>
