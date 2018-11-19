@@ -5,7 +5,7 @@ import os
 
 import Core
 
-humans_page = open(os.path.join(settings.STATIC_URL, "humans.txt"))
+humans_page = open(os.path.join(settings.STATIC_URL, "humans.txt")).read()
 
 
 def main_page(request):
@@ -13,7 +13,7 @@ def main_page(request):
         return redirect("/main")
     if 's' in request.GET:
         return search(request)
-    return render(request, "main_page.html")
+    return render(request, "index.html")
 
 
 def school_info(request, id):
@@ -21,7 +21,7 @@ def school_info(request, id):
 
 
 def humans(*_, **__):
-    return HttpResponse(humans_page)
+    return HttpResponse(humans_page.replace('\n', '<br/>'))
 
 
 def adv_search(request):
@@ -30,4 +30,9 @@ def adv_search(request):
 
 def search(request):
     name = request.GET['s']
+    return render(request, "index.html")
+
+
+def search_results(request, payload):
+    
     return render(request, "main_page.html")

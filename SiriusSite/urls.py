@@ -38,4 +38,5 @@ urlpatterns = [
     path('humans.txt', Site.humans),
     path('search', Site.adv_search),
     path('search/', Site.adv_search),
+    path('found/<str: payload>', Site.search_results)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
