@@ -3,7 +3,6 @@ $(document).ready(function () {
     $(".mapbut").mPageScroll2id();
 });
 
-
 $(window).load(function () {
     $(".loaderInner").fadeOut();
     $(".loader").delay(400).fadeOut("slow");
@@ -11,13 +10,6 @@ $(window).load(function () {
 
 var marksCanvas = document.getElementById("EGE");
 
-var marksData = {
-    labels: ["Математика", "Русский язык", "Физика", "Химия", "Биология", "История", "Информатика", "Что-то еще"],
-    datasets: [{
-        backgroundColor: "rgba(200,0,0,0.5)",
-        data: [80, 80, 80, 80, 80, 80, 80, 100]
-    }]
-};
 var chartOptions = {
     scale: {
         ticks: {
@@ -34,11 +26,10 @@ var chartOptions = {
     legend: {
         display: false
     }
-
 };
 var radarChart = new Chart(marksCanvas, {
     type: 'radar',
-    data: marksData,
+    data: ege_data,
     options: chartOptions
 });
 
