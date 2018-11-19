@@ -301,11 +301,19 @@ section h2 {
     padding: 0 5%;
 }
 
+.addresses {
+    padding: 0 5%;
+}
+
 .schools {
     padding: 0 5%;
 }
 
 .aboutt ul li {
+    font-size: 20px;
+}
+
+.addresses ul li {
     font-size: 20px;
 }
 
