@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Schools of Moscow</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../static/css/fonts.css"/>
+    <link rel="stylesheet" href="../static/lib/animate/animate.min.css"/>
+    <link rel="stylesheet" href="../static/lib/bootstrap/bootstrap-grid.min.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/mainSearch.css">
+    <link rel="stylesheet" href="../static/css/media.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+            integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+            crossorigin=""></script>
+    <script src="../static/lib/chart/Chart.min.js"></script>
+</head>
+
+
+<body>
+<div class="content">
+    <div class="loader">
+        <div class="loaderInner">
+
+        </div>
+    </div>
+
+
+    <header class="main_head">
+        <div class="container">
+            <div class="col-md-4">
+                <a href="" class="name">Schools of Moscow</a>
+            </div>
+
+            <div class="col-md-4 col-md-push-4">
+                <!--<a href="#about" class="mapbut">Школы на карте</a>
+                -->
+                <input class="input" name="s" placeholder="Искать здесь..." type="search"/>
+                <button class="submit" type="submit"><i class="fas fa-search"></i></button>
+
+
+            </div>
+        </div>
+
+
+        <!--
+        <div class="top_wrapper">
+            <div class="top_text second">
+                Воспользуйтесь картой для поиска наилчушего варианта
+            </div>
+            <div class="top_text">
+                Подберите школу, основываясь на рейтинг ЕГЭ
+            </div>
+
+
+            <img src="img/top.svg" alt="Image description." class="imgg" />
+            <button class="searchpage" onClick='location.href="search.html"'>
+                Найти на карте
+            </button>
+
+
+
+
+
+        </div>-->
+
+
+    </header>
+
+
+    <!--   font-family: 'Libre Baskerville', serif;   -->
+    <div class="container">
+        <section class="back">
+            <div class="col-md-12 back">
+
+                <section id="geomap" class="s_about light">
+                    <h2>Результаты поиска</h2>
+                    {% include "structure/map_init.xml" %}
+                </section>
+            </div>
+            <div class="col-md-12 back">
+                <h1 class="countschools">Найдено {{ count }} школ:</h1>
+            </div>
+            <div class="col-md-12 back" style="padding-bottom: 50px">
+                {% for school in schools %}
+                    <div class="school">
+                        <div class="nameOfSchool"><a href="/school?id={{ school.ekis_id }}">{{ school.name }}</a></div>
+                        <div class="profile"><a href="">{{ school.profiles }}</a></div>
+                        <div class="type"><a href="">{{ school.ou_class }}</a></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- FOOTER -->
+{% include "structure/footer.xml" %}
+
+<script src="../static/lib/jquery/jquery-2.1.3.min.js"></script>
+<script src="../static/lib/parallax/parallax.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+        integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+        crossorigin=""></script>
+<script src="../static/lib/animate/animate-css.js"></script>
+<script src="../static/lib/scroll/PageScroll2id.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key="></script>
+<script src="../static/js/commonSchool.js"></script>
+
+{# marks all schools on map #}
+<script>
+    function onClick(e) {e.openPopup();}
+    console.log("markers starting");
+    {% for school in schools %}
+        {% for address in school.addresses %}
+            var marker = L.marker({{ address.latLng }}).addTo(mymap);
+            marker.bindPopup({{ address.fullname }});
+            marker.on('click', onClick);
+            console.log("marker:" + {{ address.latLng }});
+        {% endfor %}
+    {% endfor %}
+    console.log("markers done");
+</script>
+</body>
+</html>
