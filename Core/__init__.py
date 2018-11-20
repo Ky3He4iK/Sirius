@@ -171,6 +171,9 @@ def get_schools_by_string(string):
 def get_schools_filter(filters):
     # TODO: do
     res = []
+    '''
+    
+    '''
     return get_schools_short(res)
 
 

@@ -24,15 +24,13 @@ def adv_search(request):
     if request.method != 'POST' or 'data' not in request.POST:
         return redirect("/main")
     data = Core.get_schools_filter(request.POST['data'])
-    # render(request, "result.html", data)  # TODO: do result.html
-    return render(request, "search.html")
+    return render(request, "result.html", data)
 
 
 def search(request):
     name = request.GET['s']
     data = Core.get_schools_by_string(name)
-    # render(request, "result.html", data)  # TODO: do result.html
-    return redirect("/main")
+    return render(request, "result.html", data)
 
 
 def school(request):
