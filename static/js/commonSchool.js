@@ -21,13 +21,6 @@ $(window).load(function() {
 
 var marksCanvas = document.getElementById("EGE");
 
-var marksData = {
-labels: ["Математика", "Русский язык", "Физика", "Химия", "Биология", "История", "Информатика", "Что-то еще"],
-datasets: [{
-	backgroundColor: "rgba(200,0,0,0.5)",
-	data: [80, 80, 80, 80,80, 80, 80, 100]
-}]
-};
 var chartOptions = {
   scale: {
     ticks: {
@@ -47,21 +40,13 @@ var chartOptions = {
 };
 var radarChart = new Chart(marksCanvas, {
 type: 'radar',
-data: marksData,
+data: ege_data,
 options: chartOptions
 });
 
 
 var Canvas = document.getElementById("OGE");
 
-var Data = {
-labels: ["Математика", "Русский язык", "Физика", "Химия", "Биология", "История", "Информатика", "Что-то еще"],
-datasets: [{
-	label: "ОГЭ",
-	backgroundColor: "rgba(200,0,0,0.5)",
-	data: [80, 80, 80, 80,80, 80, 80, 100]
-}]
-};
 var Options = {
   scale: {
     ticks: {
@@ -81,6 +66,6 @@ var Options = {
 };
 var Chart = new Chart(Canvas, {
 type: 'radar',
-data: Data,
+data: oge_data,
 options: Options
 });

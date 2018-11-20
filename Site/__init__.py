@@ -9,11 +9,15 @@ humans_page = open(os.path.join(settings.STATIC_URL, "humans.txt")).read()
 
 
 def main_page(request):
-    if request.path == '/':
+    try:
+        if request.path == '/':
+            return redirect("/main")
+        if 's' in request.GET:
+            return search(request)
+        return render(request, "index.html")
+    except Exception as e:
+        print(e, e.args)
         return redirect("/main")
-    if 's' in request.GET:
-        return search(request)
-    return render(request, "index.html")
 
 
 def humans(*_, **__):
@@ -21,22 +25,34 @@ def humans(*_, **__):
 
 
 def adv_search(request):
-    if request.method != 'POST' or 'data' not in request.POST:
+    try:
+        if request.method != 'POST' or 'data' not in request.POST:
+            return redirect("/main")
+        data = Core.get_schools_filter(request.POST['data'])
+        return render(request, "result.html", data)
+    except Exception as e:
+        print(e, e.args)
         return redirect("/main")
-    data = Core.get_schools_filter(request.POST['data'])
-    return render(request, "result.html", data)
 
 
 def search(request):
-    name = request.GET['s']
-    data = Core.get_schools_by_string(name)
-    return render(request, "result.html", data)
+    try:
+        name = request.GET['s']
+        data = Core.get_schools_by_string(name)
+        return render(request, "result.html", data)
+    except Exception as e:
+        print(e, e.args)
+        return redirect("/main")
 
 
 def school(request):
-    if 'id' not in request.GET:
+    try:
+        if 'id' not in request.GET:
+            return redirect("/main")
+        school_inf = Core.get_school(int(request.GET['id']))
+        if len(school_inf) == 0:
+            return redirect("/main")
+        return render(request, "school.html", school_inf)
+    except Exception as e:
+        print(e, e.args)
         return redirect("/main")
-    school_inf = Core.get_school(int(request.GET['id']))
-    if len(school_inf) == 0:
-        return redirect("/main")
-    return render(request, "school.html", school_inf)

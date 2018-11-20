@@ -93,14 +93,11 @@
                     {% if okato != 'nan' %}
                         <li>ОКАТО: {{ okato }}</li>
                     {% endif %}
-                    <li>Считает себя: {% if financing != 'nan' %}
-                        {{ financing }}
-                    {% endif %}
-                        {{ ou_type }}<br/>{{ ou_class }}</li>
+                        <li>{{ ou_type }}<br/>{{ ou_class }}</li>
                     {% if extended_groups == True %}
                         <li>Есть группы продлённого дня</li>
                     {% endif %}
-                    <li>Средний балл по ЕГЭ: {{ ege_mean }}</li>
+{#                    <li>Средний балл по ЕГЭ: {{ ege_mean }}</li>#}
                 </ul>
             </div>
             <div class="col-md-12 back">
@@ -113,13 +110,13 @@
                     <script>
                         const ege_data = {
                             labels: [
-                                "Среднее"{% for name in subjects_ege %}, "{{ name }}"{% endfor %}
+                                {% for name in subjects_ege %}"{{ name }}", {% endfor %}
                             ],
                             datasets: [{
                                 label: "ЕГЭ",
                                 backgroundColor: "rgba(200,0,0,0.5)",
                                 data: [
-                                    {{ ege_mean }}{% for _, value in subjects_ege.items %}, {{ value }}{% endfor %}
+                                    {% for _, value in subjects_ege.items %}{{ value }}, {% endfor %}
                                 ]
                             }]
                         }
@@ -133,13 +130,13 @@
                     <script>
                         const oge_data = {
                             labels: [
-                                "Среднее"{% for name in subjects_oge %}, "{{ name }}"{% endfor %}
+                                {% for name in subjects_oge %}"{{ name }}", {% endfor %}
                             ],
                             datasets: [{
                                 label: "ОГЭ",
                                 backgroundColor: "rgba(200,0,0,0.5)",
                                 data: [
-                                    {{ oge_mean }}{% for _, value in subjects_oge.items %}, {{ value }}{% endfor %}
+                                    {% for _, value in subjects_oge.items %}{{ value }}, {% endfor %}
                                 ]
                             }]
                         }

@@ -86,10 +86,8 @@ def get_school(ekis_id):
         address
         ogrn
         okato
-        financing
         ou_type
         ou_class
-        ege_mean
         subjects_ege - dict "name": "balls"
         subjects_oge - как subjects_ege
 
@@ -111,11 +109,8 @@ def get_school(ekis_id):
         "address": str(t.address[0]),
         "ogrn": str(t.ogrn[0]),
         "okato": str(t.okato[0]),
-        "financing": str(t.financing[0]),
         "ou_type": str(t.ou_type[0]),
         "ou_class": str(t.ou_class[0]),
-        "ege_mean": t.ege_mean[0],
-        "oge_mean": t.oge_mean[0],
         "subjects_ege": {},
         "subjects_oge": {},
         "addresses": [],
