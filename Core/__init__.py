@@ -33,7 +33,7 @@ def _get_school_short(ekis_id):
     prophiles = 'Языковой\nЕстественнонаучный\nТехнический\nГуманитарный\nЭкономический'.split('\n')
     for prophile in prophiles:
         if t["П_" + prophile][0] == 1:
-            res['prophiles'].push_back(prophile)
+            res['prophiles'].append(prophile)
     return res
 
 
@@ -71,7 +71,7 @@ def get_school(ekis_id):
         ege_mean
         subjects_ege - dict "name": "balls"
         subjects_oge - как subjects_ege
-        
+
         address: filltext; isMain
         schools_like_this: (ekis, name) or {"ekis": "name"}
         '''
@@ -128,8 +128,8 @@ def get_school(ekis_id):
     # print(addresses)
     tt = addresses[addresses.ekis_id == ekis_id]
     for ind in range(len(tt)):
-            res['addresses'].append({'isMain': tt['isMain'][ind], 'fulltext': tt['fulltext'][ind],
-                                     'latLng': [tt['lat'][ind], tt['lng'][ind]]})
+        res['addresses'].append({'isMain': tt['isMain'][ind], 'fulltext': tt['fulltext'][ind],
+                                 'latLng': [tt['lat'][ind], tt['lng'][ind]]})
     return res
 
 
@@ -137,11 +137,26 @@ def get_school_name(ekis):
     return table[table.ekis == ekis].name[0]
 
 
-def get_schools_short(ekisis):
+def get_schools_short(ekises):
     t = []
-    ekisis = set(ekisis)
-    for ind in range(len(table)):
-        if table[ind].ekis_id in ekisis:
-            t.append(table[ind])
+    for ekis in ekises:
+        tbl = table[table.eki_id == ekis]
+    # ekisis = frozenset(*ekisis)
+    # for ind in range(len(table)):
+    #     q = table[table.ekis_id == ek]
+    #     if table.ekis_id[ind] in ekisis:
+    #         t.append(table[ind])
+    #     pass
+    for ekis in ekises:
         pass
     return json.dumps(t)
+
+
+def get_schools_by_string(string):
+    res = []
+    # for
+
+
+def get_schools_filter(filters):
+    res = []
+    pass
