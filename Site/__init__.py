@@ -16,36 +16,29 @@ def main_page(request):
     return render(request, "index.html")
 
 
-def school_info(request, id):
-    return HttpResponse("There will be info about school")
-
-
 def humans(*_, **__):
-    return HttpResponse(humans_page.replace('\n', '<br/>'))
+    return HttpResponse(humans_page, content_type="text/plain")
 
 
 def adv_search(request):
+    if request.method != 'POST' or 'data' not in request.POST:
+        return redirect("/main")
+    data = Core.get_schools_filter(request.POST['data'])
+    # render(request, "result.html", data)  # TODO: do result.html
     return render(request, "search.html")
 
 
 def search(request):
     name = request.GET['s']
-    return render(request, "search.html")
-
-
-def search_results(request, payload):
-    return render(request, "index.html")
+    data = Core.get_schools_by_string(name)
+    # render(request, "result.html", data)  # TODO: do result.html
+    return redirect("/main")
 
 
 def school(request):
     if 'id' not in request.GET:
         return redirect("/main")
-    # try:
     school_inf = Core.get_school(int(request.GET['id']))
     if len(school_inf) == 0:
         return redirect("/main")
     return render(request, "school.html", school_inf)
-    # except Exception as e:
-    #     print(e, e.args)
-    # return redirect("/main")
-

@@ -83,9 +83,7 @@
                     {% if stud_from != 'nan' %}
                         <li>В школе обучаются с {{ stud_from }} по {{ stud_to }} класс</li>
                     {% endif %}
-                    {% if prophiles != 'nan' %}
-                        <li>Профили (на основании нашей аналитики): {{ prophiles }}</li>
-                    {% endif %}
+                    <li>Профили (на основании нашей аналитики): {% for profile in profiles %}{{ profile }} {% endfor %}</li>
                     {% if address != 'nan' %}
                         <li>Юридический адрес: {{ address }}</li>
                     {% endif %}
@@ -115,15 +113,13 @@
                     <script>
                         const ege_data = {
                             labels: [
-                                "Среднее"{% for name in subjects_ege %},
-                                "{{ name }}"{% endfor %}
+                                "Среднее"{% for name in subjects_ege %}, "{{ name }}"{% endfor %}
                             ],
                             datasets: [{
                                 label: "ЕГЭ",
                                 backgroundColor: "rgba(200,0,0,0.5)",
                                 data: [
-                                    {{ ege_mean }}{% for _, value in subjects_ege.items %},
-                                    {{ value }}{% endfor %}
+                                    {{ ege_mean }}{% for _, value in subjects_ege.items %}, {{ value }}{% endfor %}
                                 ]
                             }]
                         }
@@ -137,15 +133,13 @@
                     <script>
                         const oge_data = {
                             labels: [
-                                "Среднее"{% for name in subjects_oge %},
-                                "{{ name }}"{% endfor %}
+                                "Среднее"{% for name in subjects_oge %}, "{{ name }}"{% endfor %}
                             ],
                             datasets: [{
                                 label: "ОГЭ",
                                 backgroundColor: "rgba(200,0,0,0.5)",
                                 data: [
-                                    {{ oge_mean }}{% for _, value in subjects_oge.items %},
-                                    {{ value }}{% endfor %}
+                                    {{ oge_mean }}{% for _, value in subjects_oge.items %}, {{ value }}{% endfor %}
                                 ]
                             }]
                         }
