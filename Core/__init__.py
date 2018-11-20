@@ -18,7 +18,7 @@ def _get_school_pair(ekis):
 def _get_school_short(ekis_id):
     t = table[table.ekis_id == ekis_id]
     '''name
-        prophiles
+        profiles
         address
         ou_class
         '''
@@ -26,25 +26,46 @@ def _get_school_short(ekis_id):
         return {}
     res = {
         "name": str(t.name[0]),
-        "prophiles": [],
+        "profiles": [],
         "address": str(t.address[0]),
         "ou_class": str(t.ou_class[0]),
+        "addresses": []
     }
-    prophiles = 'Языковой\nЕстественнонаучный\nТехнический\nГуманитарный\nЭкономический'.split('\n')
-    for prophile in prophiles:
+    profiles = 'Языковой\nЕстественнонаучный\nТехнический\nГуманитарный\nЭкономический'.split('\n')
+    for prophile in profiles:
         if t["П_" + prophile][0] == 1:
-            res['prophiles'].append(prophile)
+            res['profiles'].append(prophile)
+
+    tt = addresses[addresses.ekis_id == ekis_id]
+    for ind in range(len(tt)):
+        res['addresses'].append({'isMain': tt['isMain'][ind], 'fulltext': tt['fulltext'][ind],
+                                 'latLng': [tt['lat'][ind], tt['lng'][ind]]})
     return res
 
 
-def simple_search(name):
-    # TODO: remove redundant columns
-    return table[_find_schools(name)]
-
-
-def adv_search(**params):
-    # TODO
-    return []
+def _get_school_short_ind(ind):
+    '''name
+        profiles
+        address
+        ou_class
+        addresses
+    '''
+    res = {
+        "name": str(table.name[ind]),
+        "profiles": [],
+        "address": str(table.address[ind]),
+        "ou_class": str(table.ou_class[ind]),
+        "addresses": []
+    }
+    profiles = 'Языковой\nЕстественнонаучный\nТехнический\nГуманитарный\nЭкономический'.split('\n')
+    for prophile in profiles:
+        if table["П_" + prophile][ind] == 1:
+            res['profiles'].append(prophile)
+    tt = addresses[addresses.ekis_id == table.ekis_id[ind]]
+    for ind in range(len(tt)):
+        res['addresses'].append({'isMain': tt['isMain'][ind], 'fulltext': tt['fulltext'][ind],
+                                 'latLng': [tt['lat'][ind], tt['lng'][ind]]})
+    return res
 
 
 def get_school_json(ekis_id):
@@ -61,7 +82,7 @@ def get_school(ekis_id):
         principal
         stud_from
         stud_to
-        prophiles
+        profiles
         address
         ogrn
         okato
@@ -86,7 +107,7 @@ def get_school(ekis_id):
         "principal": str(t.principal[0]),
         "stud_from": t.stud_from[0],
         "stud_to": t.stud_to[0],
-        "prophiles": [],
+        "profiles": [],
         "address": str(t.address[0]),
         "ogrn": str(t.ogrn[0]),
         "okato": str(t.okato[0]),
@@ -115,17 +136,15 @@ def get_school(ekis_id):
           'Информатика и ИКТ\nХимия\nЛитература\nГеография\nФранцузcкий язык\nНемецкий язык\nИспанский язык'.split('\n')
     oge = 'Математика\nРусский язык\nОбществознание\nАнглийский язык\nИнформатика\nБиология\nГеография\nФизика\nХимия' \
           '\nИстория\nЛитература\nФранцузский язык\nНемецкий язык\nИспанский язык'.split('\n')
-    prophiles = 'Языковой\nЕстественнонаучный\nТехнический\nГуманитарный\nЭкономический'.split('\n')
+    profiles = 'Языковой\nЕстественнонаучный\nТехнический\nГуманитарный\nЭкономический'.split('\n')
     for subj in ege:
         res['subjects_ege'][subj] = t["ЕГЭ_" + subj][0]
     for subj in oge:
         res['subjects_oge'][subj] = t["ОГЭ_" + subj][0]
 
-    for prophile in prophiles:
+    for prophile in profiles:
         if t["П_" + prophile][0] == 1:
-            res['prophiles'].append(prophile)
-
-    # print(addresses)
+            res['profiles'].append(prophile)
     tt = addresses[addresses.ekis_id == ekis_id]
     for ind in range(len(tt)):
         res['addresses'].append({'isMain': tt['isMain'][ind], 'fulltext': tt['fulltext'][ind],
@@ -138,25 +157,30 @@ def get_school_name(ekis):
 
 
 def get_schools_short(ekises):
-    t = []
-    for ekis in ekises:
-        tbl = table[table.eki_id == ekis]
-    # ekisis = frozenset(*ekisis)
-    # for ind in range(len(table)):
-    #     q = table[table.ekis_id == ek]
-    #     if table.ekis_id[ind] in ekisis:
-    #         t.append(table[ind])
-    #     pass
-    for ekis in ekises:
-        pass
-    return json.dumps(t)
+    return [_get_school_short(ekis) for ekis in ekises]
 
 
 def get_schools_by_string(string):
     res = []
-    # for
+    for i, name in enumerate(table.name):
+        if string in name:
+            res.append(_get_school_short_ind(i))
+    return res
 
 
 def get_schools_filter(filters):
+    # TODO: do
     res = []
-    pass
+    return get_schools_short(res)
+
+
+def get_schools_short_json(ekises):
+    return json.dumps(get_schools_short(ekises))
+
+
+def get_schools_by_string_json(string):
+    return json.dumps(get_schools_by_string(string))
+
+
+def get_schools_filter_json(filters):
+    return json.dumps(get_schools_short(filters))
