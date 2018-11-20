@@ -40,8 +40,12 @@ def search_results(request, payload):
 def school(request):
     if 'id' not in request.GET:
         return redirect("/main")
-    school_inf = Core.get_school(request.GET['id'])
+    # try:
+    school_inf = Core.get_school(int(request.GET['id']))
     if len(school_inf) == 0:
         return redirect("/main")
     return render(request, "school.html", school_inf)
+    # except Exception as e:
+    #     print(e, e.args)
+    # return redirect("/main")
 

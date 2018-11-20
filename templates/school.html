@@ -114,11 +114,17 @@
                     <canvas id="EGE" width="100%"></canvas>
                     <script>
                         const ege_data = {
-                            labels: {{ subjects_ege.names }},
+                            labels: [
+                                "Среднее"{% for name in subjects_ege %},
+                                "{{ name }}"{% endfor %}
+                            ],
                             datasets: [{
                                 label: "ЕГЭ",
                                 backgroundColor: "rgba(200,0,0,0.5)",
-                                data: {{ subjects_ege.values }}
+                                data: [
+                                    {{ ege_mean }}{% for _, value in subjects_ege.items %},
+                                    {{ value }}{% endfor %}
+                                ]
                             }]
                         }
                     </script>
@@ -130,11 +136,17 @@
                     <canvas id="OGE" width="100%"></canvas>
                     <script>
                         const oge_data = {
-                            labels: {{ subjects_oge.names }},
+                            labels: [
+                                "Среднее"{% for name in subjects_oge %},
+                                "{{ name }}"{% endfor %}
+                            ],
                             datasets: [{
                                 label: "ОГЭ",
                                 backgroundColor: "rgba(200,0,0,0.5)",
-                                data: {{ subjects_oge.values }}
+                                data: [
+                                    {{ oge_mean }}{% for _, value in subjects_oge.items %},
+                                    {{ value }}{% endfor %}
+                                ]
                             }]
                         }
                     </script>
@@ -159,7 +171,7 @@
                 <div class="schools"><h1>Школы, похожие на эту:</h1>
                     <ul>
                         {% for ekis, name in schools_like_this %}
-                            <li><a href="school?id=ekis">name</a></li>
+                            <li><a href="school?id={{ ekis }}">{{ name }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -177,23 +189,26 @@
         crossorigin=""></script>
 <script src="../static/lib/animate/animate-css.js"></script>
 <script src="../static/lib/scroll/PageScroll2id.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key="></script>
 <script src="../static/js/commonSchool.js"></script>
 <script>
     function onClick(e) {
         e.openPopup();
     }
 
+    console.log("markers starting");
+
     {% for address in addresses %}
-        var marker = markers.push(L.marker(address.latLng).addTo(map));
+        var marker = L.marker({{ address.latLng }}).addTo(mymap);
         {% if address.isMain %}
             mymap.setView({{ address.latLng }}, 11);
-            marker.bindPopup({{ address.fullname }} +"\nГлавный корпус");
+            marker.bindPopup("<b>" + {{ address.fullname }} +"</b><br/>Главный корпус");
         {% else %}
             marker.bindPopup({{ address.fullname }});
         {% endif %}
         marker.on('click', onClick);
+        console.log("marker:" + {{ address.latLng }});
     {% endfor %}
+    console.log("markers done");
 </script>
 </body>
 </html>
