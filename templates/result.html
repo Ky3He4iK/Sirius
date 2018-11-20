@@ -86,15 +86,11 @@
 
 {# marks all schools on map #}
 <script>
-    function onClick(e) {e.openPopup();}
+    function onClick(e) { e.openPopup(); }
     console.log("markers starting");
-    {% for school in schools %}
-        {% for address in school.addresses %}
-            var marker = L.marker({{ address.latLng }}).addTo(mymap);
-            marker.bindPopup({{ address.fullname }});
-            marker.on('click', onClick);
-            console.log("marker:" + {{ address.latLng }});
-        {% endfor %}
+    {% for coord in coordinates %}
+        L.marker({{ coord.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + {{ coord.name }} +"</a>").on('click', onClick);
+        console.log("marker:" + {{ coord.latLng }});
     {% endfor %}
     console.log("markers done");
 </script>

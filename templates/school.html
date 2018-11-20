@@ -83,7 +83,8 @@
                     {% if stud_from != 'nan' %}
                         <li>В школе обучаются с {{ stud_from }} по {{ stud_to }} класс</li>
                     {% endif %}
-                    <li>Профили (на основании нашей аналитики): {% for profile in profiles %}{{ profile }} {% endfor %}</li>
+                    <li>Профили (на основании нашей аналитики):
+                        {% for profile in profiles %}{{ profile }} {% endfor %}</li>
                     {% if address != 'nan' %}
                         <li>Юридический адрес: {{ address }}</li>
                     {% endif %}
@@ -93,11 +94,11 @@
                     {% if okato != 'nan' %}
                         <li>ОКАТО: {{ okato }}</li>
                     {% endif %}
-                        <li>{{ ou_type }}<br/>{{ ou_class }}</li>
+                    <li>{{ ou_type }}<br/>{{ ou_class }}</li>
                     {% if extended_groups == True %}
                         <li>Есть группы продлённого дня</li>
                     {% endif %}
-{#                    <li>Средний балл по ЕГЭ: {{ ege_mean }}</li>#}
+                    {#                    <li>Средний балл по ЕГЭ: {{ ege_mean }}</li>#}
                 </ul>
             </div>
             <div class="col-md-12 back">
@@ -182,21 +183,13 @@
 <script src="../static/lib/scroll/PageScroll2id.min.js"></script>
 <script src="../static/js/commonSchool.js"></script>
 <script>
-    function onClick(e) {
-        e.openPopup();
-    }
-
+    function onClick(e) { e.openPopup(); }
     console.log("markers starting");
-
-    {% for address in addresses %}
-        var marker = L.marker({{ address.latLng }}).addTo(mymap);
-        {% if address.isMain %}
-            mymap.setView({{ address.latLng }}, 11);
-            marker.bindPopup("<b>" + {{ address.fullname }} +"</b><br/>Главный корпус");
-        {% else %}
-            marker.bindPopup({{ address.fullname }});
-        {% endif %}
-        marker.on('click', onClick);
+    {% for address in addresses %}L.marker({{ address.latLng }}).addTo(mymap).on('click', onClick)
+    {% if address.isMain %}.bindPopup("<b>" + {{ address.fullname }} +"</b><br/>Главный корпус");
+        mymap.setView({{ address.latLng }}, 11);
+    {% else %}.bindPopup({{ address.fullname }});
+    {% endif %}
         console.log("marker:" + {{ address.latLng }});
     {% endfor %}
     console.log("markers done");

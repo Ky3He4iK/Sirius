@@ -9,15 +9,15 @@ humans_page = open(os.path.join(settings.STATIC_URL, "humans.txt")).read()
 
 
 def main_page(request):
-    try:
+    # try:
         if request.path == '/':
             return redirect("/main")
         if 's' in request.GET:
             return search(request)
         return render(request, "index.html")
-    except Exception as e:
-        print(e, e.args)
-        return redirect("/main")
+    # except Exception as e:
+    #     print(e, e.args)
+    #     return HttpResponse("Err", status=500)
 
 
 def humans(*_, **__):
@@ -25,34 +25,35 @@ def humans(*_, **__):
 
 
 def adv_search(request):
-    try:
+    # try:
         if request.method != 'POST' or 'data' not in request.POST:
             return redirect("/main")
         data = Core.get_schools_filter(request.POST['data'])
         return render(request, "result.html", data)
-    except Exception as e:
-        print(e, e.args)
-        return redirect("/main")
+    # except Exception as e:
+    #     print(e, e.args)
+    #     return redirect("/main")
 
 
 def search(request):
-    try:
+    # try:
         name = request.GET['s']
         data = Core.get_schools_by_string(name)
         return render(request, "result.html", data)
-    except Exception as e:
-        print(e, e.args)
-        return redirect("/main")
+    # except Exception as e:
+    #     print(e, e.args)
+    #     return redirect("/main")
 
 
 def school(request):
-    try:
+    # try:
         if 'id' not in request.GET:
             return redirect("/main")
         school_inf = Core.get_school(int(request.GET['id']))
         if len(school_inf) == 0:
             return redirect("/main")
+        print(school_inf)
         return render(request, "school.html", school_inf)
-    except Exception as e:
-        print(e, e.args)
-        return redirect("/main")
+    # except Exception as e:
+    #     print(e, e.args)
+    #     return redirect("/main")

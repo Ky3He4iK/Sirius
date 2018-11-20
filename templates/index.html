@@ -32,7 +32,7 @@
     <div class="loaderInner">
     </div>
 </div>
-<header class="main_head" data-parallax="scroll" data-image-src="/static/img/wall.png" data-z-index="1"
+<header class="main_head" data-parallax="scroll" data-image-src="/static/img/wall.jpg" data-z-index="1"
         position="top center">
     <div class="container">
         <div class="row">
@@ -157,5 +157,15 @@
 <script src="../static/lib/scroll/PageScroll2id.min.js"></script>
 <script src="../static/lib/slider/nouislider.min.js"></script>
 <script src="../static/js/common.js"></script>
+<script>
+    function onClick(e) { e.openPopup(); }
+
+    console.log("markers starting");
+    {% for coord in coordinates %}
+        L.marker({{ coord.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + {{ coord.name }} +"</a>").on('click', onClick);
+        console.log("marker:" + {{ coord.latLng }});
+    {% endfor %}
+    console.log("markers done");
+</script>
 </body>
 </html>
