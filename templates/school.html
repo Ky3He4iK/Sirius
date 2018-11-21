@@ -56,7 +56,7 @@
         <section class="back">
             <div class="col-md-12 back">
                 <section id="geomap" class="s_about light">
-                    <h2>Школа №354</h2>
+                    <h2>{{ name }}</h2>
                     <div class="buttons"><span class="filterbutsec active"><i class="fas fa-chevron-up"></i></span>
                     </div>
                     {% include "structure/map_init.xml" %}
@@ -151,7 +151,7 @@
                     </script>
                 </section>
             </div>
-            <div class="col-md-6 back">
+            <div class="col-md-12 back">
                 <div class="addresses">
                     <h1>Адреса школ</h1>
                     {% for address in addresses %}
