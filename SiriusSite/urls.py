@@ -19,8 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 import Site
-import Map
 import Api
+import Core
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,8 +28,10 @@ urlpatterns = [
     path('api/get/', Api.get_school),
     path('api/adv_search', Api.adv_search),
     path('api/adv_search/', Api.adv_search),
+    path('api/search', Api.search),
     path('api/search/', Api.search),
-    path('api/search/', Api.search),
+    path('api/lists', Api.get_lists),
+    path('api/lists/', Core.get_lists),
     path('', Site.main_page, name="index"),
     path('main', Site.main_page, name="index"),
     path('main/', Site.main_page, name="index"),
