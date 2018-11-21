@@ -27,8 +27,10 @@ def _get_school_pair(ekis):
 
 
 def _addresses_to_arr(tt):
-    return [{'isMain': bool(tt['main'][ind]), 'name': tt['short_name'][ind], 'latLng': [tt['lat'][ind], tt['lng'][ind]],
-             'fullname': str(tt['fulltext'][ind])} for ind in range(len(tt))]
+    return [{'isMain': bool(tt['main'][ind]), 'name': tt['short_name'][ind],
+             'latLng': [float(tt['lat'][ind]), float(tt['lng'][ind])],
+             'fullname': str(tt['fulltext'][ind])} for ind in range(len(tt))
+            if str(tt['lat'][ind]) != 'nan' and str(tt['lng'][ind]) != 'nan']
 
 
 def _profiles_to_str(t, ind=0):
@@ -87,7 +89,7 @@ def _filtering(filters):
         return [ind for ind in inds if _table.min_parallel[ind] <= number <= _table.max_parallel[ind]]
 
     def _filter_by_profiles(profiles):
-        sets = [set([ind for ind in inds if profile in _profiles and _table['П_' + profile][ind] == 1])
+        sets = [set([ind for ind in inds if profile in _profiles and _table['p_' + profile][ind] == 1])
                 for profile in profiles]
         return list(sets[0].intersection(*sets[1:]))
 
