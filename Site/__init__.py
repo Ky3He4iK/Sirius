@@ -14,7 +14,7 @@ def main_page(request):
             return redirect("/main")
         if 's' in request.GET:
             return search(request)
-        return render(request, "index.html")
+        return render(request, "index.html", {'coordinates': Core.coordinates})
     # except Exception as e:
     #     print(e, e.args)
     #     return HttpResponse("Err", status=500)
@@ -39,7 +39,7 @@ def search(request):
     # try:
         name = request.GET['s']
         data = Core.get_schools_by_string(name)
-        return render(request, "result.html", data)
+        return render(request, "result.html", {'schools': data, 'count': len(data)})
     # except Exception as e:
     #     print(e, e.args)
     #     return redirect("/main")

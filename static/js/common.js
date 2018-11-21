@@ -1,88 +1,80 @@
+$(document).ready(function () {
 
-$(document).ready(function(){
-	
-	
-	
-	function heightDetect() {
-		$(".main_head").css("height", $(window).height());
-	};
-	heightDetect();
-	$(window).resize(function() {
-		heightDetect();
-	});
 
-	$(".btn").mPageScroll2id();
-	$(".mapbut").mPageScroll2id();
-	
-  	$(".filterbut").click(function(){
-		$('.filters').toggleClass('active');
-		$('.filterbut').toggleClass('active');
-		$('.filterbutsec').toggleClass('active');
-	});
-	$(".filterbutsec").click(function(){
-		$('.filters').toggleClass('active');
-		$('.filterbut').toggleClass('active');
-		$('.filterbutsec').toggleClass('active');
-	});
-	
-	
+    function heightDetect() {
+        $(".main_head").css("height", $(window).height());
+    };
+    heightDetect();
+    $(window).resize(function () {
+        heightDetect();
+    });
+
+    $(".btn").mPageScroll2id();
+    $(".mapbut").mPageScroll2id();
+
+    $(".filterbut").click(function () {
+        console.log(".filterbut");
+        $('.filters').toggleClass('active');
+        $('.filterbut').toggleClass('active');
+        $('.filterbutsec').toggleClass('active');
+    });
+    $(".filterbutsec").click(function () {
+        console.log(".filterbutsec");
+        $('.filters').toggleClass('active');
+        $('.filterbut').toggleClass('active');
+        $('.filterbutsec').toggleClass('active');
+    });
 });
 
 
-$(window).load(function() { 
-	$(".loaderInner").fadeOut(); 
-	$(".loader").delay(400).fadeOut("slow"); 
+$(window).load(function () {
+    $(".loaderInner").fadeOut();
+    $(".loader").delay(400).fadeOut("slow");
 });
 
 
-$( function() {
-    $( "#slider-range_1" ).slider({
-      range: true,
-      min: 0,
-      max: 100,
-      values: [ 0, 100 ],
-      slide: function( event, ui ) {
-        $( "#amount_1" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-      }
+$(function () {
+    $("#slider-range_1").slider({
+        range: true,
+        min: 0,
+        max: 100,
+        values: [0, 100],
+        slide: function (event, ui) {
+            $("#amount_1").val(ui.values[0] + " - " + ui.values[1]);
+        }
     });
-    $( "#amount_1" ).val($( "#slider-range_1" ).slider( "values", 0 ) +
-      " - " + $( "#slider-range_1" ).slider( "values", 1 ) );
-  } );
+    $("#amount_1").val($("#slider-range_1").slider("values", 0) +
+        " - " + $("#slider-range_1").slider("values", 1));
+});
 
 
-$( function() {
-    $( "#slider-range_2" ).slider({
-      range: true,
-      min: 0,
-      max: 100,
-      values: [ 0, 100 ],
-      slide: function( event, ui ) {
-        $( "#amount_2" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-      }
+$(function () {
+    $("#slider-range_2").slider({
+        range: true,
+        min: 0,
+        max: 100,
+        values: [0, 100],
+        slide: function (event, ui) {
+            $("#amount_2").val(ui.values[0] + " - " + ui.values[1]);
+        }
     });
-    $( "#amount_2" ).val($( "#slider-range_2" ).slider( "values", 0 ) +
-      " - " + $( "#slider-range_2" ).slider( "values", 1 ) );
-  } );
+    $("#amount_2").val($("#slider-range_2").slider("values", 0) +
+        " - " + $("#slider-range_2").slider("values", 1));
+});
 
-$( function() {
-    $( "#slider-range_3" ).slider({
-      range: true,
-      min: 0,
-      max: 100,
-      values: [ 0, 100 ],
-      slide: function( event, ui ) {
-        $( "#amount_3" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-      }
+$(function () {
+    $("#slider-range_3").slider({
+        range: true,
+        min: 0,
+        max: 100,
+        values: [0, 100],
+        slide: function (event, ui) {
+            $("#amount_3").val(ui.values[0] + " - " + ui.values[1]);
+        }
     });
-    $( "#amount_3" ).val($( "#slider-range_3" ).slider( "values", 0 ) +
-      " - " + $( "#slider-range_3" ).slider( "values", 1 ) );
-  } );
-
-
-
-
-
-
+    $("#amount_3").val($("#slider-range_3").slider("values", 0) +
+        " - " + $("#slider-range_3").slider("values", 1));
+});
 
 
 /*

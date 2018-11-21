@@ -5,42 +5,54 @@ import os
 
 _table = pd.read_csv(os.path.join(settings.BASE_DIR, "data/main_table.csv"), sep=';')
 _addresses = pd.read_csv(os.path.join(settings.BASE_DIR, "data/addresses.csv"), sep=';')
-_coordinates = [{'ekis_id': int(_addresses.ekis_id[ind]), 'fulltext': _addresses.fulltext[ind],
-                'latLng': [_addresses.lat[ind], _addresses.lng[ind]]} for ind in range(len(_addresses))]
-_profiles = [col[2:] for col in list(_table.columns) if col[:2] == "П_"]
-_ege = [col[4:] for col in list(_table.columns) if col[:4] == "EGE_"]
-_oge = [col[4:] for col in list(_table.columns) if col[:4] == "OGE_"]
+coordinates = [{'ekis_id': int(_addresses.ekis_id[ind]), 'fulltext': _addresses.fulltext[ind],
+                 'latLng': [_addresses.lat[ind], _addresses.lng[ind]]} for ind in range(len(_addresses))]
+_profiles = [col[2:] for col in list(_table.columns) if col[:2] == "p_"]
+forbidden_subject_parts = [" устный", "Математика базовая", "Сочинение", "EGE_Математика"]
+
+
+def _check_subj(subj):
+    for fb in forbidden_subject_parts:
+        if fb in subj:
+            return False
+    return True
+
+
+_ege = [col[4:] for col in list(_table.columns) if col[:4] == "EGE_" and _check_subj(col)]
+_oge = [col[4:] for col in list(_table.columns) if col[:4] == "OGE_" and _check_subj(col)]
 
 
 def _get_school_pair(ekis):
-    return int(ekis), str(_table[_table.ekis_id == ekis].short_name[0])
+    return int(ekis), str(_table[_table.ekis_id == ekis].reset_index().short_name[0])
 
 
 def _addresses_to_arr(tt):
-    return [{'isMain': bool(tt['main'][ind]), 'fulltext': tt['fulltext'][ind],
-             'latLng': [tt['lat'][ind], tt['lng'][ind]]} for ind in range(len(tt))]
+    return [{'isMain': bool(tt['main'][ind]), 'name': tt['short_name'][ind], 'latLng': [tt['lat'][ind], tt['lng'][ind]],
+             'fullname': str(tt['fulltext'][ind])} for ind in range(len(tt))]
 
 
-def _profiles_to_arr(t, ind=0):
-    return [profile for profile in _profiles if t["П_" + profile][ind] == 1]
+def _profiles_to_str(t, ind=0):
+    return ', '.join([profile for profile in _profiles if t["p_" + profile][ind] == 1])
 
 
 def _get_school_short(ekis_id):
-    t = _table[_table.ekis_id == ekis_id]
+    t = _table[_table.ekis_id == ekis_id].reset_index()
     '''name
         profiles
         legal_address
         ou_class
         addresses
+        ekis_id
         '''
     if len(t) != 1:
         return {}
     res = {
+        "ekis_id": ekis_id,
         "name": str(t.short_name[0]),
-        "profiles": _profiles_to_arr(t),
+        "profiles": _profiles_to_str(t),
         "legal_address": str(t.legal_address[0]),
         "ou_class": str(t.ou_class[0]),
-        "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id]),
+        "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id].reset_index()),
     }
     return res
 
@@ -53,11 +65,12 @@ def _get_school_short_ind(ind):
         addresses
     '''
     res = {
+        "ekis_id": _table.ekis_id[ind],
         "name": str(_table.short_name[ind]),
-        "profiles": _profiles_to_arr(_table, ind),
+        "profiles": _profiles_to_str(_table, ind),
         "legal_address": str(_table.legal_address[ind]),
         "ou_class": str(_table.ou_class[ind]),
-        "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == _table.ekis_id[ind]]),
+        "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == _table.ekis_id[ind]].reset_index()),
     }
     return res
 
@@ -71,7 +84,7 @@ def _filtering(filters):
         return [ind for (ind, district) in enumerate(_addresses.disctrict) if district in names]
 
     def _filter_by_class(number):
-        return [ind for ind in inds if _table.stud_from[ind] <= number <= _table.stud_to[ind]]
+        return [ind for ind in inds if _table.min_parallel[ind] <= number <= _table.max_parallel[ind]]
 
     def _filter_by_profiles(profiles):
         sets = [set([ind for ind in inds if profile in _profiles and _table['П_' + profile][ind] == 1])
@@ -111,7 +124,7 @@ def _to_json(d):
 
 
 def get_school(ekis_id):
-    t = _table[_table.ekis_id == ekis_id]
+    t = _table[_table.ekis_id == ekis_id].reset_index()
     '''name
         name_full
         site
@@ -139,9 +152,9 @@ def get_school(ekis_id):
         "site": str(t.site[0]),
         "email": str(t.email[0]),
         "principal": str(t.principal[0]),
-        "stud_from": int(t.stud_from[0]),
-        "stud_to": int(t.stud_to[0]),
-        "profiles": _profiles_to_arr(t),
+        "stud_from": str(t.min_parallel[0]),
+        "stud_to": str(t.max_parallel[0]),
+        "profiles": _profiles_to_str(t),
         "legal_address": str(t.legal_address[0]),
         "financing": str(t.financing[0]),
         "ogrn": str(t.ogrn[0]),
@@ -149,7 +162,7 @@ def get_school(ekis_id):
         "ou_class": str(t.ou_class[0]),
         "subjects_ege": {subj: float(t["EGE_" + subj][0]) for subj in _ege},
         "subjects_oge": {subj: float(t["OGE_" + subj][0]) for subj in _oge},
-        "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id]),
+        "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id].reset_index()),
         "schools_like_this": [_get_school_pair(t['Schools_Like_This_' + str(i)][0]) for i in range(1, 11)],
     }
     return res
@@ -208,7 +221,7 @@ def get_schools_filter_json(filters):
 
 def get_lists():
     return json.dumps({
-        'coordinates': _coordinates,
+        'coordinates': coordinates,
         'profiles': _profiles,
         'ege': _ege,
         'oge': _oge

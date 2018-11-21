@@ -157,11 +157,11 @@
 <script src="../static/lib/slider/nouislider.min.js"></script>
 <script src="../static/js/common.js"></script>
 <script>
-    function onClick(e) { e.openPopup(); }
+    //function onClick(e) { e.openPopup(); }
 
     console.log("markers starting");
     {% for coord in coordinates %}
-        L.marker({{ coord.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + {{ coord.name }} +"</a>").on('click', onClick);
+        L.marker({{ coord.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + {{ coord.name }} +"</a>");//.on('click', onClick);
         console.log("marker:" + {{ coord.latLng }});
     {% endfor %}
     console.log("markers done");

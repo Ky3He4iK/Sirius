@@ -54,14 +54,19 @@
                 </section>
             </div>
             <div class="col-md-12 back">
-                <h1 class="countschools">Найдено {{ count }} школ:</h1>
+                <h1 class="countschools">Найдено {{ count }}:</h1>
             </div>
             <div class="col-md-12 back" style="padding-bottom: 50px">
+                <div class="school">
+                    <div class="nameOfSchool"><b>Название школы:</b></div>
+                    <div class="profile"><b>Профиль:</b></div>
+                </div>
                 {% for school in schools %}
                     <div class="school">
-                        <div class="nameOfSchool"><a href="/school?id={{ school.ekis_id }}">{{ school.name }}</a></div>
-                        <div class="profile"><a href="">{{ school.profiles }}</a></div>
-                        <div class="type"><a href="">{{ school.ou_class }}</a></div>
+                        <div class="nameOfSchool"><a href="/school?id={{ school.ekis_id }}">
+                            {{ school.name }}</a></div>
+                        <div class="profile"><a href="/school?id={{ school.ekis_id }}">{{ school.profiles }}</a></div>
+                        {#<div class="type"><a href="/school?id={{ school.ekis_id }}">{{ school.ou_class }}</a></div>#}
                     </div>
                 {% endfor %}
             </div>
@@ -79,16 +84,20 @@
         crossorigin=""></script>
 <script src="../static/lib/animate/animate-css.js"></script>
 <script src="../static/lib/scroll/PageScroll2id.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key="></script>
 <script src="../static/js/commonSchool.js"></script>
 
 {# marks all schools on map #}
 <script>
-    function onClick(e) { e.openPopup(); }
+    function onClick(e) {
+        e.openPopup();
+    }
+
     console.log("markers starting");
-    {% for coord in coordinates %}
-        L.marker({{ coord.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + {{ coord.name }} +"</a>").on('click', onClick);
-        console.log("marker:" + {{ coord.latLng }});
+    {% for school in schools %}
+        {% for address in school.addresses %}
+            L.marker({{ address.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ school.ekis_id }}\">" + {{ school.name }} +"</a>").on('click', onClick);
+            console.log("marker:" + {{ coord.latLng }});
+        {% endfor %}
     {% endfor %}
     console.log("markers done");
 </script>
