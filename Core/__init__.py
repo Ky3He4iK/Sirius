@@ -65,7 +65,7 @@ def _get_school_short_ind(ind):
         addresses
     '''
     res = {
-        "ekis_id": _table.ekis_id[ind],
+        "ekis_id": int(_table.ekis_id[ind]),
         "name": str(_table.short_name[ind]),
         "profiles": _profiles_to_str(_table, ind),
         "legal_address": str(_table.legal_address[ind]),
