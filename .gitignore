@@ -1,2 +1,4 @@
 SiriusSite/secret/*
 */__pycache__
+tmp/*
+bkp/*

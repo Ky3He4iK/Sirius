@@ -14,7 +14,8 @@ def main_page(request):
             return redirect("/main")
         if 's' in request.GET:
             return search(request)
-        return render(request, "index.html", {'coordinates': Core.coordinates})
+        print(len(Core.coordinates))
+        return render(request, "index.html", Core.lists)
     # except Exception as e:
     #     print(e, e.args)
     #     return HttpResponse("Err", status=500)

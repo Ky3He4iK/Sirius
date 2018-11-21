@@ -5,10 +5,10 @@ import os
 
 _table = pd.read_csv(os.path.join(settings.BASE_DIR, "data/main_table.csv"), sep=';')
 _addresses = pd.read_csv(os.path.join(settings.BASE_DIR, "data/addresses.csv"), sep=';')
-coordinates = [{'ekis_id': int(_addresses.ekis_id[ind]), 'fulltext': _addresses.fulltext[ind],
-                'latLng': [_addresses.lat[ind], _addresses.lng[ind]]}
-               for ind in range(len(_addresses))
-               if str(_addresses['lat'][ind]) != 'nan' and str(_addresses['lng'][ind]) != 'nan']
+# coordinates = [{'ekis_id': int(_addresses.ekis_id[ind]), 'fulltext': _addresses.fulltext[ind],
+#                 'latLng': [_addresses.lat[ind], _addresses.lng[ind]]}
+#                for ind in range(len(_addresses))
+#                if str(_addresses['lat'][ind]) != 'nan' and str(_addresses['lng'][ind]) != 'nan']
 _profiles = [col[2:] for col in list(_table.columns) if col[:2] == "p_"]
 forbidden_subject_parts = [" устный", "Математика базовая", "Сочинение", "EGE_Математика"]
 
@@ -20,20 +20,23 @@ def _check_subj(subj):
     return True
 
 
+def _addresses_to_arr(tt):
+    return [{'ekis_id': int(_addresses.ekis_id[ind]),
+             'isMain': bool(tt['main'][ind]), 'name': tt['short_name'][ind],
+             'latLng': [float(tt['lat'][ind]), float(tt['lng'][ind])],
+             'fullname': str(tt['fulltext'][ind])} for ind in range(len(tt))
+            if str(tt['lat'][ind]) != 'nan' and str(tt['lng'][ind]) != 'nan']
+
+
 _ege = [col[4:] for col in list(_table.columns) if col[:4] == "EGE_" and _check_subj(col)]
 _oge = [col[4:] for col in list(_table.columns) if col[:4] == "OGE_" and _check_subj(col)]
-lists = json.dumps({'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'oge': _oge}, ensure_ascii=False)
+coordinates = _addresses_to_arr(_addresses)
+lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'oge': _oge}
+lists_json = json.dumps(lists, ensure_ascii=False)
 
 
 def _get_school_pair(ekis):
     return int(ekis), str(_table[_table.ekis_id == ekis].reset_index().short_name[0])
-
-
-def _addresses_to_arr(tt):
-    return [{'isMain': bool(tt['main'][ind]), 'name': tt['short_name'][ind],
-             'latLng': [float(tt['lat'][ind]), float(tt['lng'][ind])],
-             'fullname': str(tt['fulltext'][ind])} for ind in range(len(tt))]
-            # if str(tt['lat'][ind]) != 'nan' and str(tt['lng'][ind]) != 'nan']
 
 
 def _profiles_to_str(t, ind=0):
@@ -229,4 +232,4 @@ def get_schools_filter_json(filters):
 
 
 def get_lists():
-    return lists
+    return lists_json
