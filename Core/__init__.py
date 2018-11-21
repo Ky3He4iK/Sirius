@@ -6,7 +6,9 @@ import os
 _table = pd.read_csv(os.path.join(settings.BASE_DIR, "data/main_table.csv"), sep=';')
 _addresses = pd.read_csv(os.path.join(settings.BASE_DIR, "data/addresses.csv"), sep=';')
 coordinates = [{'ekis_id': int(_addresses.ekis_id[ind]), 'fulltext': _addresses.fulltext[ind],
-                 'latLng': [_addresses.lat[ind], _addresses.lng[ind]]} for ind in range(len(_addresses))]
+                'latLng': [_addresses.lat[ind], _addresses.lng[ind]]}
+               for ind in range(len(_addresses))
+               if str(_addresses['lat'][ind]) != 'nan' and str(_addresses['lng'][ind]) != 'nan']
 _profiles = [col[2:] for col in list(_table.columns) if col[:2] == "p_"]
 forbidden_subject_parts = [" устный", "Математика базовая", "Сочинение", "EGE_Математика"]
 
@@ -20,6 +22,7 @@ def _check_subj(subj):
 
 _ege = [col[4:] for col in list(_table.columns) if col[:4] == "EGE_" and _check_subj(col)]
 _oge = [col[4:] for col in list(_table.columns) if col[:4] == "OGE_" and _check_subj(col)]
+lists = json.dumps({'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'oge': _oge}, ensure_ascii=False)
 
 
 def _get_school_pair(ekis):
@@ -29,8 +32,8 @@ def _get_school_pair(ekis):
 def _addresses_to_arr(tt):
     return [{'isMain': bool(tt['main'][ind]), 'name': tt['short_name'][ind],
              'latLng': [float(tt['lat'][ind]), float(tt['lng'][ind])],
-             'fullname': str(tt['fulltext'][ind])} for ind in range(len(tt))
-            if str(tt['lat'][ind]) != 'nan' and str(tt['lng'][ind]) != 'nan']
+             'fullname': str(tt['fulltext'][ind])} for ind in range(len(tt))]
+            # if str(tt['lat'][ind]) != 'nan' and str(tt['lng'][ind]) != 'nan']
 
 
 def _profiles_to_str(t, ind=0):
@@ -90,17 +93,21 @@ def _filtering(filters):
 
     def _filter_by_profiles(profiles):
         sets = [set([ind for ind in inds if profile in _profiles and _table['p_' + profile][ind] == 1])
-                for profile in profiles]
+                for profile in profiles if profile in _profiles]
         return list(sets[0].intersection(*sets[1:]))
 
     def _filter_by_ege(ege):
-        sets = [set([ind for ind in inds if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
-                     and subj['min'] <= _table['EGE_' + subj['name']][ind] <= subj['max']]) for subj in ege]
+        sets = [set([ind for ind in inds
+                     if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
+                        and subj['min'] <= _table['EGE_' + subj['name']][ind] <= subj['max']])
+                for subj in ege if subj['min'] != 0 or subj['max'] != 100]
         return list(sets[0].intersection(*sets[1:]))
 
     def _filter_by_oge(oge):
-        sets = [set([ind for ind in inds if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
-                     and subj['min'] <= _table['OGE_' + subj['name']][ind] <= subj['max']]) for subj in oge]
+        sets = [set([ind for ind in inds
+                     if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
+                        and subj['min'] <= _table['OGE_' + subj['name']][ind] <= subj['max']])
+                for subj in oge if subj['min'] != 2 or subj['max'] != 5]
         return list(sets[0].intersection(*sets[1:]))
 
     if len(filters) == 0:  # special for lazy pasha 'cause he can't use /api/get_lists
@@ -222,9 +229,4 @@ def get_schools_filter_json(filters):
 
 
 def get_lists():
-    return json.dumps({
-        'coordinates': coordinates,
-        'profiles': _profiles,
-        'ege': _ege,
-        'oge': _oge
-    }, ensure_ascii=False)
+    return lists

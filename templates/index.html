@@ -57,7 +57,7 @@
     <h2>Поиск</h2>
     <div class="container">
         <div class="col-md-12">
-            <form class="search" action="" method="get">
+            <form class="search" action="/main" method="get">
                 <input class="input" name="s" placeholder="Искать здесь..." type="search"/>
                 <button class="submit" type="submit"><i class="fas fa-search"></i></button>
             </form>
@@ -65,53 +65,55 @@
         </div>
     </div>
     <section class="filters active">
-        <div class="container">
+        <form method="post">
+            <div class="container">
+                <div class="col-md-6">
+                    <h1>Профиль:</h1>
+                    <div class="profiles">
+                        <p><input type="checkbox" checked>Технический</p>
+                        <p><input type="checkbox" checked>Естественно-научный</p>
+                        <p><input type="checkbox" checked>Экономический</p>
+                        <p><input type="checkbox" checked>Языковой</p>
+                        <p><input type="checkbox" checked>Гуманитарный</p>
+                    </div>
+                    <div class="EGE">
+                        <h1>Баллы ЕГЭ:</h1>
+                        {% for ind, subj in subjects %}
+                            <p>
+                                <label for="amount_{{ ind }}"><h3>{{ subj }}</h3></label>
+                                <input type="text" id="amount_{{ ind }}" readonly
+                                       style="border:0; color:black; font-weight:bold; background-color: #dedede">
+                            </p>
+                            <div id="slider-range_{{ ind }}"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6">
-                <h1>Профиль:</h1>
-                <div class="profiles">
-                    <p><input type="checkbox" checked>Технический</p>
-                    <p><input type="checkbox" checked>Естественно-научный</p>
-                    <p><input type="checkbox" checked>Экономический</p>
-                    <p><input type="checkbox" checked>Языковой</p>
-                    <p><input type="checkbox" checked>Гуманитарный</p>
-                </div>
-                <div class="EGE">
-                    <h1>Баллы ЕГЭ:</h1>
-                    {% for ind, subj in subjects %}
-                        <p>
-                            <label for="amount_{{ ind }}"><h3>{{ subj }}</h3></label>
-                            <input type="text" id="amount_{{ ind }}" readonly
-                                   style="border:0; color:black; font-weight:bold; background-color: #dedede">
-                        </p>
-                        <div id="slider-range_{{ ind }}"></div>
-                    {% endfor %}
+                <h1>Округ:</h1>
+                <div class="place">
+                    <p><input type="checkbox" checked>Границы ключ переломлен пополам,</p>
+                    <p><input type="checkbox" checked>А наш батюшка Ленин совсем усоп,</p>
+                    <p><input type="checkbox" checked>Он разложился на плесень и на липовый мёд,</p>
+                    <p><input type="checkbox" checked>А перестройка все идёт и идёт по плану,</p>
+                    <p><input type="checkbox" checked>А вся грязь превратилась в голый лёд. </p>
+                    <p><input type="checkbox" checked>И всё идёт по плану.</p>
+                    <p><input type="checkbox" checked>А моя душа захотела на покой,</p>
+                    <p><input type="checkbox" checked>Я обещал ей не участвовать в военной игре,</p>
+                    <p><input type="checkbox" checked>Но на фуражке на моей серп и молот и звезда,</p>
+                    <p><input type="checkbox" checked>Как это трогательно серп и молот и звезда,</p>
+                    <p><input type="checkbox" checked>Лихой фонарь ожидания мотается,</p>
+                    <p><input type="checkbox" checked>И ВСЕ ИДЕТ ПО ПЛАНУ</p>
+                    <h1>Класс обучения:</h1>
+                    <form class="radiobut" action="">
+                        {% for class in classes %}
+                            <div class="rb"><input name="class" type="radio" value="{{ class }}"><br>{{ class }}</div>
+                        {% endfor %}
+                        <input type="submit" value="Submit">
+                    </form>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <h1>Округ:</h1>
-            <div class="place">
-                <p><input type="checkbox" checked>Границы ключ переломлен пополам,</p>
-                <p><input type="checkbox" checked>А наш батюшка Ленин совсем усоп,</p>
-                <p><input type="checkbox" checked>Он разложился на плесень и на липовый мёд,</p>
-                <p><input type="checkbox" checked>А перестройка все идёт и идёт по плану,</p>
-                <p><input type="checkbox" checked>А вся грязь превратилась в голый лёд. </p>
-                <p><input type="checkbox" checked>И всё идёт по плану.</p>
-                <p><input type="checkbox" checked>А моя душа захотела на покой,</p>
-                <p><input type="checkbox" checked>Я обещал ей не участвовать в военной игре,</p>
-                <p><input type="checkbox" checked>Но на фуражке на моей серп и молот и звезда,</p>
-                <p><input type="checkbox" checked>Как это трогательно серп и молот и звезда,</p>
-                <p><input type="checkbox" checked>Лихой фонарь ожидания мотается,</p>
-                <p><input type="checkbox" checked>И ВСЕ ИДЕТ ПО ПЛАНУ</p>
-                <h1>Класс обучения:</h1>
-                <form class="radiobut" action="">
-                    {% for class in classes %}
-                        <div class="rb"><input name="class" type="radio" value="{{ class }}"><br>{{ class }}</div>
-                    {% endfor %}
-                    <input type="submit" value="Submit">
-                </form>
-            </div>
-        </div>
+        </form>
     </section>
     <div class="buttons"><span class="filterbutsec active"><i class="fas fa-chevron-up"></i></span></div>
     <div class="container">
