@@ -33,5 +33,5 @@ def search(request):
     #     return HttpResponse("An error occupied: " + str(e), content_type="text/plain", status=500)
 
 
-def get_lists(request):
+def get_lists(_):
     return HttpResponse(Core.get_lists(), content_type="application/json")

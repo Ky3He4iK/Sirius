@@ -20,7 +20,6 @@ from django.conf import settings
 
 import Site
 import Api
-import Core
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,7 +30,7 @@ urlpatterns = [
     path('api/search', Api.search),
     path('api/search/', Api.search),
     path('api/lists', Api.get_lists),
-    path('api/lists/', Core.get_lists),
+    path('api/lists/', Api.get_lists),
     path('', Site.main_page, name="index"),
     path('main', Site.main_page, name="index"),
     path('main/', Site.main_page, name="index"),
