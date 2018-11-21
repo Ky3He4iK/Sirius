@@ -56,7 +56,7 @@
         <section class="back">
             <div class="col-md-12 back">
                 <section id="geomap" class="s_about light">
-                    <h2>Школа №354</h2>
+                    <h2>{{ name }}</h2>
                     <div class="buttons"><span class="filterbutsec active"><i class="fas fa-chevron-up"></i></span>
                     </div>
                     {% include "structure/map_init.xml" %}
@@ -68,19 +68,28 @@
             <div class="aboutt">
                 <ul>
                     <li>Название: {{ name_full }}</li>
-                    {% if site != 'nan' %}<li>Сайт: <a href="http://{{ site }}/">{{ site }}</a></li>{% endif %}
-                    {% if email != 'nan' %}<li>E-mail: {{ email }}</li>{% endif %}
-                    {% if principal != 'nan' %}<li>Директор: {{ principal }}</li>{% endif %}
-                    {% if stud_from != 'nan' %}<li>В школе обучаются с {{ stud_from }} по {{ stud_to }} класс</li>{% endif %}
-                    <li>Профили (на основании нашей аналитики):
-                        {% for profile in profiles %}{{ profile }} {% endfor %}</li>
-                    {% if legal_address != 'nan' %}<li>Юридический адрес: {{ address }}</li>{% endif %}
-                    {% if financing != 'nan' %}<li>{{ financing }}</li>{% endif %}
-                    {% if ogrn != 'nan' %}<li>ОГРН: {{ ogrn }}</li>{% endif %}
-                    {% if okato != 'nan' %}<li>ОКАТО: {{ okato }}</li>{% endif %}
-                    <li>{{ ou_class }}</li>
-                    {% if extended_groups == True %}<li>Есть группы продлённого дня</li>{% endif %}
-                    {# <li>Средний балл по ЕГЭ: {{ ege_mean }}</li>#}
+                    {% if site != 'nan' %}
+                        <li>Сайт: <a href="http://{{ site }}/">{{ site }}</a></li>{% endif %}
+                    {% if email != 'nan' %}
+                        <li>E-mail: {{ email }}</li>{% endif %}
+                    {% if principal != 'nan' %}
+                        <li>Директор: {{ principal }}</li>{% endif %}
+                    {% if stud_from != 'nan' %}
+                        <li>В школе обучаются с {{ stud_from }} по {{ stud_to }} класс</li>{% endif %}
+                    {% if profiles != '' %}
+                        <li>Профили (на основании нашей аналитики): {{ profiles }}</li>{% endif %}
+                    {% if legal_address != 'nan' %}
+                        <li>Юридический адрес: {{ address }}</li>{% endif %}
+                    {% if financing != 'nan' %}
+                        <li>{{ financing }}</li>{% endif %}
+                    {% if ogrn != 'nan' %}
+                        <li>ОГРН: {{ ogrn }}</li>{% endif %}
+                    {% if okato != 'nan' %}
+                        <li>ОКАТО: {{ okato }}</li>{% endif %}
+                    {% if ou_class != 'nan' %}
+                        <li>{{ ou_class }}</li>{% endif %}
+                    {% if extended_groups == True %}
+                        <li>Есть группы продлённого дня</li>{% endif %}
                 </ul>
             </div>
             <div class="col-md-12 back">
@@ -93,13 +102,21 @@
                     <script>
                         const ege_data = {
                             labels: [
-                                {% for name in subjects_ege %}"{{ name }}", {% endfor %}
+                                {% for name, value in subjects_ege.items %}
+                                    {% if value != 0 %}
+                                        "{{ name }}",
+                                    {% endif %}
+                                {% endfor %}
                             ],
                             datasets: [{
                                 label: "ЕГЭ",
                                 backgroundColor: "rgba(200,0,0,0.5)",
                                 data: [
-                                    {% for _, value in subjects_ege.items %}{{ value }}, {% endfor %}
+                                    {% for _, value in subjects_ege.items %}
+                                        {% if value != 0 %}
+                                            {{ value }},
+                                        {% endif %}
+                                    {% endfor %}
                                 ]
                             }]
                         }
@@ -113,30 +130,38 @@
                     <script>
                         const oge_data = {
                             labels: [
-                                {% for name in subjects_oge %}"{{ name }}", {% endfor %}
+                                {% for name, value in subjects_oge.items %}
+                                    {% if value != 0 %}
+                                        "{{ name }}",
+                                    {% endif %}
+                                {% endfor %}
                             ],
                             datasets: [{
                                 label: "ОГЭ",
                                 backgroundColor: "rgba(200,0,0,0.5)",
                                 data: [
-                                    {% for _, value in subjects_oge.items %}{{ value }}, {% endfor %}
+                                    {% for _, value in subjects_oge.items %}
+                                        {% if value != 0 %}
+                                            {{ value }},
+                                        {% endif %}
+                                    {% endfor %}
                                 ]
                             }]
                         }
                     </script>
                 </section>
             </div>
-            <div class="col-md-6 back">
+            <div class="col-md-12 back">
                 <div class="addresses">
                     <h1>Адреса школ</h1>
                     {% for address in addresses %}
                         {% if address.isMain %}
-                            <li>Главный корпус: {{ address.fulltext }}</li>
+                            <li>Главный корпус: {{ address.fullname }}</li>
                         {% endif %}
                     {% endfor %}
                     {% for address in addresses %}
                         {% if not address.isMain %}
-                            <li>{{ address.fulltext }}</li>
+                            <li>{{ address.fullname}}</li>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -165,11 +190,14 @@
 <script src="../static/lib/scroll/PageScroll2id.min.js"></script>
 <script src="../static/js/commonSchool.js"></script>
 <script>
-    function onClick(e) { e.openPopup(); }
+    function onClick(e) {
+        e.openPopup();
+    }
+
     console.log("markers starting");
     {% for address in addresses %}L.marker({{ address.latLng }}).addTo(mymap).on('click', onClick)
     {% if address.isMain %}.bindPopup("<b>" + {{ address.fullname }} +"</b><br/>Главный корпус");
-        mymap.setView({{ address.latLng }}, 11);
+        mymap.setView({{ address.latLng }}, 13);
     {% else %}.bindPopup({{ address.fullname }});
     {% endif %}
         console.log("marker:" + {{ address.latLng }});
