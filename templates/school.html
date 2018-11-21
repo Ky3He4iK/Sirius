@@ -68,37 +68,19 @@
             <div class="aboutt">
                 <ul>
                     <li>Название: {{ name_full }}</li>
-                    {% if site != 'nan' %}
-                        <li>Сайт: <a href="http://{{ site }}/">{{ site }}</a></li>
-                    {% endif %}
-                    {% if email != 'nan' %}
-                        <li>E-mail: {{ email }}</li>
-                    {% endif %}
-                    {% if phone != 'nan' %}
-                        <li>Телефон: {{ phone }}</li>
-                    {% endif %}
-                    {% if principal != 'nan' %}
-                        <li>Директор: {{ principal }}</li>
-                    {% endif %}
-                    {% if stud_from != 'nan' %}
-                        <li>В школе обучаются с {{ stud_from }} по {{ stud_to }} класс</li>
-                    {% endif %}
+                    {% if site != 'nan' %}<li>Сайт: <a href="http://{{ site }}/">{{ site }}</a></li>{% endif %}
+                    {% if email != 'nan' %}<li>E-mail: {{ email }}</li>{% endif %}
+                    {% if principal != 'nan' %}<li>Директор: {{ principal }}</li>{% endif %}
+                    {% if stud_from != 'nan' %}<li>В школе обучаются с {{ stud_from }} по {{ stud_to }} класс</li>{% endif %}
                     <li>Профили (на основании нашей аналитики):
                         {% for profile in profiles %}{{ profile }} {% endfor %}</li>
-                    {% if address != 'nan' %}
-                        <li>Юридический адрес: {{ address }}</li>
-                    {% endif %}
-                    {% if ogrn != 'nan' %}
-                        <li>ОГРН: {{ ogrn }}</li>
-                    {% endif %}
-                    {% if okato != 'nan' %}
-                        <li>ОКАТО: {{ okato }}</li>
-                    {% endif %}
-                    <li>{{ ou_type }}<br/>{{ ou_class }}</li>
-                    {% if extended_groups == True %}
-                        <li>Есть группы продлённого дня</li>
-                    {% endif %}
-                    {#                    <li>Средний балл по ЕГЭ: {{ ege_mean }}</li>#}
+                    {% if legal_address != 'nan' %}<li>Юридический адрес: {{ address }}</li>{% endif %}
+                    {% if financing != 'nan' %}<li>{{ financing }}</li>{% endif %}
+                    {% if ogrn != 'nan' %}<li>ОГРН: {{ ogrn }}</li>{% endif %}
+                    {% if okato != 'nan' %}<li>ОКАТО: {{ okato }}</li>{% endif %}
+                    <li>{{ ou_class }}</li>
+                    {% if extended_groups == True %}<li>Есть группы продлённого дня</li>{% endif %}
+                    {# <li>Средний балл по ЕГЭ: {{ ege_mean }}</li>#}
                 </ul>
             </div>
             <div class="col-md-12 back">

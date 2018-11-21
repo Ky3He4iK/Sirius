@@ -12,16 +12,12 @@ _ege = [col[4:] for col in list(_table.columns) if col[:4] == "EGE_"]
 _oge = [col[4:] for col in list(_table.columns) if col[:4] == "OGE_"]
 
 
-def _find_schools(name):
-    return _table['name'].str.contains(name, regex=False)
-
-
 def _get_school_pair(ekis):
-    return int(ekis), str(_table[_table.ekis_id == ekis].name[0])
+    return int(ekis), str(_table[_table.ekis_id == ekis].short_name[0])
 
 
 def _addresses_to_arr(tt):
-    return [{'isMain': bool(tt['isMain'][ind]), 'fulltext': tt['fulltext'][ind],
+    return [{'isMain': bool(tt['main'][ind]), 'fulltext': tt['fulltext'][ind],
              'latLng': [tt['lat'][ind], tt['lng'][ind]]} for ind in range(len(tt))]
 
 
@@ -33,16 +29,16 @@ def _get_school_short(ekis_id):
     t = _table[_table.ekis_id == ekis_id]
     '''name
         profiles
-        address
+        legal_address
         ou_class
         addresses
         '''
     if len(t) != 1:
         return {}
     res = {
-        "name": str(t.name[0]),
+        "name": str(t.short_name[0]),
         "profiles": _profiles_to_arr(t),
-        "address": str(t.address[0]),
+        "legal_address": str(t.legal_address[0]),
         "ou_class": str(t.ou_class[0]),
         "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id]),
     }
@@ -57,9 +53,9 @@ def _get_school_short_ind(ind):
         addresses
     '''
     res = {
-        "name": str(_table.name[ind]),
+        "name": str(_table.short_name[ind]),
         "profiles": _profiles_to_arr(_table, ind),
-        "address": str(_table.address[ind]),
+        "legal_address": str(_table.legal_address[ind]),
         "ou_class": str(_table.ou_class[ind]),
         "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == _table.ekis_id[ind]]),
     }
@@ -92,6 +88,9 @@ def _filtering(filters):
                      and subj['min'] <= _table['OGE_' + subj['name']][ind] <= subj['max']]) for subj in oge]
         return list(sets[0].intersection(*sets[1:]))
 
+    if len(filters) == 0:  # special for lazy pasha 'cause he can't use /api/get_lists
+        return list(range(len(_table)))
+
     if 'districts' in filters and len(filters['districts']) > 0:
         inds = _filter_by_district(filters['districts'])
     else:
@@ -117,50 +116,48 @@ def get_school(ekis_id):
         name_full
         site
         email
-        phone
         principal
         stud_from
         stud_to
         profiles
+        financing
         address
         ogrn
         okato
-        ou_type
         ou_class
         subjects_ege - dict "name": "balls"
         subjects_oge - как subjects_ege
 
-        address: filltext; isMain
+        legal_address: filltext; isMain
         schools_like_this: (ekis, name) or {"ekis": "name"}
         '''
     if len(t) != 1:
         return {}
     res = {
-        "name": str(t.name[0]),
-        "name_full": str(t.name_full[0]),
+        "name": str(t.short_name[0]),
+        "name_full": str(t.name[0]),
         "site": str(t.site[0]),
         "email": str(t.email[0]),
-        "phone": str(t.phone[0]),
         "principal": str(t.principal[0]),
         "stud_from": int(t.stud_from[0]),
         "stud_to": int(t.stud_to[0]),
         "profiles": _profiles_to_arr(t),
-        "address": str(t.address[0]),
+        "legal_address": str(t.legal_address[0]),
+        "financing": str(t.financing[0]),
         "ogrn": str(t.ogrn[0]),
         "okato": str(t.okato[0]),
-        "ou_type": str(t.ou_type[0]),
         "ou_class": str(t.ou_class[0]),
         "subjects_ege": {subj: float(t["EGE_" + subj][0]) for subj in _ege},
         "subjects_oge": {subj: float(t["OGE_" + subj][0]) for subj in _oge},
         "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id]),
-        "schools_like_this": [_get_school_pair(t['schools_like_this' + str(i)][0]) for i in range(1, 11)],
+        "schools_like_this": [_get_school_pair(t['Schools_Like_This_' + str(i)][0]) for i in range(1, 11)],
     }
     return res
 
 
 def get_schools_by_string(string):
     res = []
-    for i, name in enumerate(_table.name):
+    for i, name in enumerate(_table.short_name):
         if string in str(name):
             res.append(_get_school_short_ind(i))
     return res
@@ -216,4 +213,3 @@ def get_lists():
         'ege': _ege,
         'oge': _oge
     }, ensure_ascii=False)
-
