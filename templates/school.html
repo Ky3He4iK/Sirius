@@ -20,11 +20,10 @@
             <div class="col-md-4">
                 <a href="/main" class="name">Schools of Moscow</a>
             </div>
-            {% comment %}<div class="col-md-4 col-md-push-4">
-                <!--<a href="#about" class="mapbut">Школы на карте</a>-->
+            <form class="search" action="/main" method="get">
                 <input class="input" name="s" placeholder="Искать здесь..." type="search"/>
                 <button class="submit" type="submit"><i class="fas fa-search"></i></button>
-            </div>{% endcomment %}
+            </form>
         </div>
     </header>
     <div class="container">
@@ -142,8 +141,10 @@
                         <script>
                             const vyzes_data = {
                                 labels: [
-                                    {% for name, value in vyzes.items %}
-                                        "{{ name }}",
+                                    {% for pair in top_vyzes %}
+                                        {% for a, b in pair %}
+                                            "{{ a }}",
+                                        {% endfor %}
                                     {% endfor %}
                                 ],
                                 datasets: [{
@@ -161,8 +162,10 @@
                                         "rgba(200,0,0,0.5)"
                                     ],
                                     data: [
-                                        {% for _, value in vyzes.items %}
-                                            {{ value }},
+                                        {% for pair in top_vyzes %}
+                                            {% for a, b in pair %}
+                                                "{{ a }}",
+                                            {% endfor %}
                                         {% endfor %}
                                     ]
                                 }]
@@ -218,11 +221,12 @@
     }
 
     console.log("markers starting");
-        {% for address in addresses %}var marker_{{ address.ekis_id }} = L.marker({{ address.latLng }}).addTo(mymap).on('click', onClick)
-        {% if address.isMain %}.bindPopup("<b>" + "{{ address.fullname }}" + "</b><br/>Главный корпус");
-            mymap.setView({{ address.latLng }}, 13);
-        {% else %}.bindPopup("{{ address.fullname }}");
-        {% endif %}
+        {% for address in addresses %}var
+            marker_{{ address.ekis_id }} = L.marker({{ address.latLng }}).addTo(mymap).on('click', onClick)
+            {% if address.isMain %}.bindPopup("<b>" + "{{ address.fullname }}" + "</b><br/>Главный корпус");
+                mymap.setView({{ address.latLng }}, 13);
+            {% else %}.bindPopup("{{ address.fullname }}");
+            {% endif %}
             console.log("marker:" + {{ address.latLng }});
         {% endfor %}
     console.log("markers done");
