@@ -2,8 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.conf import settings
 import os
+import json
 
 import Core
+
 
 humans_page = open(os.path.join(settings.STATIC_URL, "humans.txt")).read()
 Core.lists.update({'classes': [i for i in range(1, 13)]})
@@ -27,11 +29,14 @@ def humans(*_, **__):
 
 def adv_search(request):
     # try:
-    #
-        if 'data' not in request.POST:
+        if 'data' in request.POST:
+            data = Core.get_schools_filter(json.loads(request.POST['data']))
+        elif 'filters' in request.GET:
+            filters = json.loads(request.GET['filters'])
+            data = Core.get_schools_filter(filters)
+        else:
             return redirect("/main")
-        data = Core.get_schools_filter(request.POST['data'])
-        return render(request, "result.html", data)
+        return render(request, "result.html", {'schools': data, 'count': len(data)})
     # except Exception as e:
     #     print(e, e.args)
     #     return redirect("/main")

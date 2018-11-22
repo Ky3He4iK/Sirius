@@ -142,14 +142,14 @@ def _filtering(filters):
     if 'parallel' in filters:
         inds = _filter_by_class(filters['parallel'])
     else:
-        inds = list(range(len(_table)))
+        inds = range(len(_table))
     if 'profiles' in filters and len(_profiles) > len(filters['profiles']) > 0:
         inds = _filter_by_profiles(filters['profiles'])
     if 'ege' in filters and len(filters['ege']) > 0:
         inds = _filter_by_ege(filters['ege'])
     if 'oge' in filters and len(filters['oge']) > 0:
         inds = _filter_by_oge(filters['oge'])
-    if 'okrugs' in filters and len(filters['okrugs']) > 0:
+    if 'okrugs' in filters and len(_okrugs) > len(filters['okrugs']) > 0:
         inds = _filter_by_okrug(filters['okrugs'])
     return inds
 
@@ -244,7 +244,7 @@ def get_schools_filter(filters):
       ]
     }
     """
-    return _get_schools_short_ind(_filtering(json.loads(filters)))
+    return _get_schools_short_ind(_filtering(filters))
 
 
 def get_school_json(ekis_id):
