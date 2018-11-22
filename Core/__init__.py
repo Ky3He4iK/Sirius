@@ -124,7 +124,7 @@ def _filtering(filters):
         inds = list(range(len(_table)))
     if 'parallel' in filters:
         inds = _filter_by_class(filters['parallel'])
-    if 'profiles' in filters and len(filters['profiles']) > 0:
+    if 'profiles' in filters and len(_profiles) > len(filters['profiles']) > 0:
         inds = _filter_by_profiles(filters['profiles'])
     if 'ege' in filters and len(filters['ege']) > 0:
         inds = _filter_by_ege(filters['ege'])
