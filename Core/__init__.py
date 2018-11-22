@@ -102,7 +102,7 @@ def _filtering(filters):
                     return True
             return False
 
-        return [ind for (ind, okrug) in enumerate(_addresses.okrug) if _has_filial(ind)]
+        return [ind for ind in inds if _has_filial(ind)]
 
     def _filter_by_class(number):
         return [ind for ind in range(len(_table)) if _table.min_parallel[ind] <= number <= _table.max_parallel[ind]]
@@ -137,7 +137,7 @@ def _filtering(filters):
         inds = _filter_by_class(filters['parallel'])
     else:
         inds = list(range(len(_table)))
-    if 'profiles' in filters and len(filters['profiles']) > 0:
+    if 'profiles' in filters and len(_profiles) > len(filters['profiles']) > 0:
         inds = _filter_by_profiles(filters['profiles'])
     if 'ege' in filters and len(filters['ege']) > 0:
         inds = _filter_by_ege(filters['ege'])
