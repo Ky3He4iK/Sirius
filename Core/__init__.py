@@ -108,14 +108,14 @@ def _filtering(filters):
     def _filter_by_ege(ege):
         sets = [set([ind for ind in inds
                      if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
-                        and subj['min'] <= _table['EGE_' + subj['name']][ind] <= subj['max']])
+                     and subj['min'] <= _table['EGE_' + subj['name']][ind] <= subj['max']])
                 for subj in ege if subj['min'] != 0 or subj['max'] != 100]
         return list(sets[0].intersection(*sets[1:]))
 
     def _filter_by_oge(oge):
         sets = [set([ind for ind in inds
                      if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
-                        and subj['min'] <= _table['OGE_' + subj['name']][ind] <= subj['max']])
+                     and subj['min'] <= _table['OGE_' + subj['name']][ind] <= subj['max']])
                 for subj in oge if subj['min'] != 2 or subj['max'] != 5]
         return list(sets[0].intersection(*sets[1:]))
 
@@ -202,11 +202,11 @@ def get_schools_by_string(string):
         else:
             clear_string += ' '
     words = clear_string.lower().split()
-    for i, name in enumerate(_table.short_name+' '+_table.name):
+    for i, name in enumerate(_table.short_name + ' ' + _table.name):
         isIn = True
         for word in words:
             if not (word in str(name).lower()):
-                isIn=False
+                isIn = False
         if isIn:
             res.append(_get_school_short_ind(i))
     return res
