@@ -11,7 +11,8 @@ _addresses = pd.read_csv(os.path.join(settings.BASE_DIR, "data/addresses.csv"), 
 #                if str(_addresses['lat'][ind]) != 'nan' and str(_addresses['lng'][ind]) != 'nan']
 _profiles = [col[2:] for col in list(_table.columns) if col[:2] == "p_"]
 _okrugs = list(_addresses.okrug.value_counts(dropna=True).reset_index()['index'])  # Magic. .Do not touch!
-forbidden_subject_parts = [" устный", "Математика базовая", "Сочинение", "EGE_Математика"]
+forbidden_subject_parts = [" устный", "Математика базовая", "Сочинение"]
+forbidden_subjects = ["EGE_Математика"]
 _vyzes = [col[2:] for col in list(_table.columns) if col[:2] == "В_"]
 
 
@@ -19,7 +20,8 @@ def _check_subj(subj):
     for fb in forbidden_subject_parts:
         if fb in subj:
             return False
-    return True
+    return subj not in forbidden_subjects
+    # return True
 
 
 def _addresses_to_arr(tt):
@@ -33,7 +35,9 @@ def _addresses_to_arr(tt):
 _ege = [col[4:] for col in list(_table.columns) if col[:4] == "EGE_" and _check_subj(col)]
 _oge = [col[4:] for col in list(_table.columns) if col[:4] == "OGE_" and _check_subj(col)]
 coordinates = _addresses_to_arr(_addresses)
-lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'okrugs': _okrugs}
+coordinates_showing = [coord for coord in coordinates[::3] if coord['isMain']]
+lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'okrugs': _okrugs,
+         'coordinates_showing': coordinates_showing}
 lists_json = json.dumps(lists, ensure_ascii=False)
 
 
@@ -91,7 +95,7 @@ def _get_schools_short_ind(inds):
 
 def _filtering(filters):
     def _filter_by_district(names):
-        return [ind for (ind, district) in enumerate(_addresses.disctrict) if district in names]
+        return [ind for (ind, district) in enumerate(_addresses.okrug) if district in names]
 
     def _filter_by_class(number):
         return [ind for ind in inds if _table.min_parallel[ind] <= number <= _table.max_parallel[ind]]
@@ -154,6 +158,8 @@ def get_school(ekis_id):
         ou_class
         subjects_ege - dict "name": "balls"
         subjects_oge - как subjects_ege
+        has_ege
+        has_oge
 
         legal_address: filltext; isMain
         schools_like_this: (ekis, name) or {"ekis": "name"}
@@ -174,11 +180,13 @@ def get_school(ekis_id):
         "ogrn": str(t.ogrn[0]),
         "okato": str(t.okato[0]),
         "ou_class": str(t.ou_class[0]),
-        "subjects_ege": {subj: float(t["EGE_" + subj][0]) for subj in _ege},
-        "subjects_oge": {subj: float(t["OGE_" + subj][0]) for subj in _oge},
+        "subjects_ege": {subj: float(t["EGE_" + subj][0]) for subj in _ege if int(t["EGE_" + subj][0]) != 0},
+        "subjects_oge": {subj: float(t["OGE_" + subj][0]) for subj in _oge if int(t["OGE_" + subj][0]) != 0},
         "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id].reset_index()),
         "schools_like_this": [_get_school_pair(t['Schools_Like_This_' + str(i)][0]) for i in range(1, 11)],
     }
+    res['has_ege'] = len(res['subjects_ege']) > 0
+    res['has_oge'] = len(res['subjects_oge']) > 0
     return res
 
 

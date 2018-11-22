@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="/static/css/mediamain.css"/>
     <link rel="stylesheet" href="/static/lib/jquery/jquery-ui.css">
     <link rel="stylesheet" href="/static/lib/slider/nouislider.min.css">
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/leaflet.markercluster.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css'
+          rel='stylesheet'/>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css'
+          rel='stylesheet'/>
 </head>
 <body>
 <div class="loader">
@@ -64,13 +69,13 @@
             <div class="buttons"><span class="filterbut"><i class="fas fa-chevron-down"></i></span></div>
         </div>
     </div>
-    <section class="filters active">
+    <section class="filters inactive">
         <div class="container">
             <div class="col-md-6">
                 <h1>Профиль:</h1>
                 <div class="profiles">
                     {% for profile in profiles %}
-                        <p><input type="checkbox" checked>profile</p>
+                        <p><input type="checkbox" checked>{{ profile }}</p>
                     {% endfor %}
                 </div>
                 <div class="EGE">
@@ -81,7 +86,7 @@
                             <input type="text" id="amount_{{ subj }}" readonly
                                    style="border:0; color:black; font-weight:bold; background-color: #dedede">
                         </p>
-                        <div id="slider-range_{{ ind }}"></div>
+                        <div id="slider-range_{{ subj }}"></div>
                     {% endfor %}
                 </div>
             </div>
@@ -115,7 +120,7 @@
             </div>
         </div>
     </section>
-    <div class="buttons"><span class="filterbutsec active"><i class="fas fa-chevron-up"></i></span></div>
+    <div class="buttons"><span class="filterbutsec inactive"><i class="fas fa-chevron-up"></i></span></div>
     <div class="container">
         <div class="col-md-12">
             {% include "structure/map_init.xml" %}
@@ -142,11 +147,19 @@
 <script src="/static/lib/slider/nouislider.min.js"></script>
 <script src="/static/js/common.js"></script>
 <script>
-    //function onClick(e) { e.openPopup(); }
+    function onClick(e) {
+        {#e.target.openPopup();#}
+        e.target._popup.openOn(mymap);
+    }
+
     console.log("markers starting");
-    {% for coord in coordinates %}{% if coord.isMain %}
-    L.marker({{ coord.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + "{{ coord.name }}" + "</a>");
-    {#.on('click', onClick);#}{% endif %}{% endfor %}
+    {#var markers = new L.MarkerClusterGroup();#}
+    {% for coord in coordinates_showing %}{% if coord.isMain %}
+    var marker = L.marker({{ coord.latLng }}).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + "{{ coord.name }}" + "</a>")
+        .on('click', onClick).addTo(mymap);
+    {#markers.addLayer(marker);#}
+    {% endif %}{% endfor %}
+    {#mymap.addLayer(markers);#}
     console.log("markers done");
 </script>
 </body>

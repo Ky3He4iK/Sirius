@@ -94,11 +94,11 @@
     opacity: 0.3;
 }
 
-.active.selector-add, .active.selector-remove {
+.inactive.selector-add, .inactive.selector-remove {
     opacity: 1;
 }
 
-.active.selector-add:hover, .active.selector-remove:hover {
+.inactive.selector-add:hover, .inactive.selector-remove:hover {
     cursor: pointer;
 }
 
@@ -106,7 +106,7 @@
     background: url(../img/selector-icons.svg) 0 -96px no-repeat;
 }
 
-.active.selector-add:focus, .active.selector-add:hover {
+.inactive.selector-add:focus, .inactive.selector-add:hover {
     background-position: 0 -112px;
 }
 
@@ -114,7 +114,7 @@
     background: url(../img/selector-icons.svg) 0 -64px no-repeat;
 }
 
-.active.selector-remove:focus, .active.selector-remove:hover {
+.inactive.selector-remove:focus, .inactive.selector-remove:hover {
     background-position: 0 -80px;
 }
 
@@ -131,16 +131,16 @@ a.selector-chooseall, a.selector-clearall {
     opacity: 0.3;
 }
 
-a.active.selector-chooseall:focus, a.active.selector-clearall:focus,
-a.active.selector-chooseall:hover, a.active.selector-clearall:hover {
+a.inactive.selector-chooseall:focus, a.inactive.selector-clearall:focus,
+a.inactive.selector-chooseall:hover, a.inactive.selector-clearall:hover {
     color: #447e9b;
 }
 
-a.active.selector-chooseall, a.active.selector-clearall {
+a.inactive.selector-chooseall, a.inactive.selector-clearall {
     opacity: 1;
 }
 
-a.active.selector-chooseall:hover, a.active.selector-clearall:hover {
+a.inactive.selector-chooseall:hover, a.inactive.selector-clearall:hover {
     cursor: pointer;
 }
 
@@ -150,7 +150,7 @@ a.selector-chooseall {
     cursor: default;
 }
 
-a.active.selector-chooseall:focus, a.active.selector-chooseall:hover {
+a.inactive.selector-chooseall:focus, a.inactive.selector-chooseall:hover {
     background-position: 100% -176px;
 }
 
@@ -160,7 +160,7 @@ a.selector-clearall {
     cursor: default;
 }
 
-a.active.selector-clearall:focus, a.active.selector-clearall:hover {
+a.inactive.selector-clearall:focus, a.inactive.selector-clearall:hover {
     background-position: 0 -144px;
 }
 
@@ -210,7 +210,7 @@ a.active.selector-clearall:focus, a.active.selector-clearall:hover {
     cursor: default;
 }
 
-.stacked .active.selector-add {
+.stacked .inactive.selector-add {
     background-position: 0 -48px;
     cursor: pointer;
 }
@@ -220,7 +220,7 @@ a.active.selector-clearall:focus, a.active.selector-clearall:hover {
     cursor: default;
 }
 
-.stacked .active.selector-remove {
+.stacked .inactive.selector-remove {
     background-position: 0 -16px;
     cursor: pointer;
 }
