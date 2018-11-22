@@ -6,6 +6,7 @@ import os
 import Core
 
 humans_page = open(os.path.join(settings.STATIC_URL, "humans.txt")).read()
+Core.lists.update({'classes': [i for i in range(1, 13)]})
 
 
 def main_page(request):
@@ -14,7 +15,6 @@ def main_page(request):
             return redirect("/main")
         if 's' in request.GET:
             return search(request)
-        print(len(Core.coordinates))
         return render(request, "index.html", Core.lists)
     # except Exception as e:
     #     print(e, e.args)

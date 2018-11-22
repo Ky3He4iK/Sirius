@@ -65,32 +65,34 @@
         </div>
     </div>
     <section class="filters active">
-        <form method="post">
-            <div class="container">
-                <div class="col-md-6">
-                    <h1>Профиль:</h1>
-                    <div class="profiles">
-                        {% for profile in profiles %}
-                            <p><input type="checkbox" checked>profile</p>
-                        {% endfor %}
-                    </div>
-                    <div class="EGE">
-                        <h1>Баллы ЕГЭ:</h1>
-                        {% for subj in ege %}
-                            <p>
-                                <label for="amount_{{ subj }}"><h3>{{ subj }}</h3></label>
-                                <input type="text" id="amount_{{ subj }}" readonly
-                                       style="border:0; color:black; font-weight:bold; background-color: #dedede">
-                            </p>
-                            <div id="slider-range_{{ ind }}"></div>
-                        {% endfor %}
-                    </div>
+        <div class="container">
+            <div class="col-md-6">
+                <h1>Профиль:</h1>
+                <div class="profiles">
+                    {% for profile in profiles %}
+                        <p><input type="checkbox" checked>profile</p>
+                    {% endfor %}
+                </div>
+                <div class="EGE">
+                    <h1>Баллы ЕГЭ:</h1>
+                    {% for subj in ege %}
+                        <p>
+                            <label for="amount_{{ subj }}"><h3>{{ subj }}</h3></label>
+                            <input type="text" id="amount_{{ subj }}" readonly
+                                   style="border:0; color:black; font-weight:bold; background-color: #dedede">
+                        </p>
+                        <div id="slider-range_{{ ind }}"></div>
+                    {% endfor %}
                 </div>
             </div>
+
             <div class="col-md-6">
                 <h1>Округ:</h1>
                 <div class="place">
-                    <p><input type="checkbox" checked>Границы ключ переломлен пополам,</p>
+                    {% for okrug in okrugs %}
+                        <p><input type="checkbox" checked id="V_{{ okrug }}">{{ okrug }}</p>
+                    {% endfor %}
+                    {% comment %}<p><input type="checkbox" checked>Границы ключ переломлен пополам,</p>
                     <p><input type="checkbox" checked>А наш батюшка Ленин совсем усоп,</p>
                     <p><input type="checkbox" checked>Он разложился на плесень и на липовый мёд,</p>
                     <p><input type="checkbox" checked>А перестройка все идёт и идёт по плану,</p>
@@ -101,17 +103,17 @@
                     <p><input type="checkbox" checked>Но на фуражке на моей серп и молот и звезда,</p>
                     <p><input type="checkbox" checked>Как это трогательно серп и молот и звезда,</p>
                     <p><input type="checkbox" checked>Лихой фонарь ожидания мотается,</p>
-                    <p><input type="checkbox" checked>И ВСЕ ИДЕТ ПО ПЛАНУ</p>
+                    <p><input type="checkbox" checked>И ВСЕ ИДЕТ ПО ПЛАНУ</p>{% endcomment %}
                     <h1>Класс обучения:</h1>
                     <form class="radiobut" action="">
                         {% for class in classes %}
-                            <div class="rb"><input name="class" type="radio" value="{{ class }}"><br>{{ class }}</div>
-                        {% endfor %}
+                            <div class="rb"><input name="class" type="radio" value="{{ class }}"><br>{{ class }}
+                            </div>{% endfor %}
                         <input type="submit" value="Submit">
                     </form>
                 </div>
             </div>
-        </form>
+        </div>
     </section>
     <div class="buttons"><span class="filterbutsec active"><i class="fas fa-chevron-up"></i></span></div>
     <div class="container">
@@ -143,7 +145,7 @@
     //function onClick(e) { e.openPopup(); }
     console.log("markers starting");
     {% for coord in coordinates %}{% if coord.isMain %}
-    L.marker({{ coord.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + "{{ coord.name }}" +"</a>");
+    L.marker({{ coord.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + "{{ coord.name }}" + "</a>");
     {#.on('click', onClick);#}{% endif %}{% endfor %}
     console.log("markers done");
 </script>

@@ -10,7 +10,9 @@ _addresses = pd.read_csv(os.path.join(settings.BASE_DIR, "data/addresses.csv"), 
 #                for ind in range(len(_addresses))
 #                if str(_addresses['lat'][ind]) != 'nan' and str(_addresses['lng'][ind]) != 'nan']
 _profiles = [col[2:] for col in list(_table.columns) if col[:2] == "p_"]
+_okrugs = list(_addresses.okrug.value_counts(dropna=True).reset_index()['index'])  # Magic. .Do not touch!
 forbidden_subject_parts = [" устный", "Математика базовая", "Сочинение", "EGE_Математика"]
+_vyzes = [col[2:] for col in list(_table.columns) if col[:2] == "В_"]
 
 
 def _check_subj(subj):
@@ -31,7 +33,7 @@ def _addresses_to_arr(tt):
 _ege = [col[4:] for col in list(_table.columns) if col[:4] == "EGE_" and _check_subj(col)]
 _oge = [col[4:] for col in list(_table.columns) if col[:4] == "OGE_" and _check_subj(col)]
 coordinates = _addresses_to_arr(_addresses)
-lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'oge': _oge}
+lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'okrugs': _okrugs}
 lists_json = json.dumps(lists, ensure_ascii=False)
 
 
