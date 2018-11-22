@@ -36,7 +36,9 @@ def adv_search(request):
             data = Core.get_schools_filter(filters)
         else:
             return redirect("/main")
-        return render(request, "result.html", {'schools': data, 'count': len(data)})
+        response = render(request, "result.html", {'schools': data, 'count': len(data)})
+        print("filters")
+        return response
     # except Exception as e:
     #     print(e, e.args)
     #     return redirect("/main")
