@@ -34,7 +34,7 @@ body {
 }
 
 #geomap {
-    padding-bottom: 60px;
+    /*padding-bottom: 60px;*/
 }
 
 section.ligth {
@@ -179,7 +179,7 @@ section.dark {
 }
 
 section {
-    padding: 50px 0;
+    /*padding: 50px 0;*/
 }
 
 section h2 {
