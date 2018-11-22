@@ -20,32 +20,19 @@
             <div class="col-md-4">
                 <a href="/main" class="name">Schools of Moscow</a>
             </div>
-            <div class="col-md-4 col-md-push-4">
+            {% comment %}<div class="col-md-4 col-md-push-4">
                 <!--<a href="#about" class="mapbut">Школы на карте</a>-->
                 <input class="input" name="s" placeholder="Искать здесь..." type="search"/>
                 <button class="submit" type="submit"><i class="fas fa-search"></i></button>
-            </div>
+            </div>{% endcomment %}
         </div>
-        <!--
-        <div class="top_wrapper">
-            <div class="top_text second">
-                Воспользуйтесь картой для поиска наилчушего варианта
-            </div>
-            <div class="top_text">
-                Подберите школу, основываясь на рейтинг ЕГЭ
-            </div>
-            <img src="img/top.svg" alt="Image description." class="imgg" />
-            <button class="searchpage" onClick='location.href="search.html"'>
-                Найти на карте
-            </button>
-        </div>-->
     </header>
     <div class="container">
         <section class="back">
             <div class="col-md-12 back">
                 <section id="geomap" class="s_about light">
                     <h2>{{ name }}</h2>
-                    {% include "structure/map_init.xml" %}
+                    {% include "structure/map_init.html" %}
                 </section>
             </div>
             <div class="col-md-12 back">
@@ -68,12 +55,12 @@
                         <li>Юридический адрес: {{ address }}</li>{% endif %}
                     {% if financing != 'nan' %}
                         <li>{{ financing }}</li>{% endif %}
-                    {% if ogrn != 'nan' %}
+                    {% comment %}{% if ogrn != 'nan' %}
                         <li>ОГРН: {{ ogrn }}</li>{% endif %}
                     {% if okato != 'nan' %}
-                        <li>ОКАТО: {{ okato }}</li>{% endif %}
+                        <li>ОКАТО: {{ okato }}</li>{% endif %}{% endcomment %}
                     {% if ou_class != 'nan' %}
-                        <li>{{ ou_class }}</li>{% endif %}
+                        <li>Тип: {{ ou_class }}</li>{% endif %}
                     {% if extended_groups == True %}
                         <li>Есть группы продлённого дня</li>{% endif %}
                 </ul>
@@ -186,12 +173,12 @@
 <script src="../static/js/commonSchool.js"></script>
 <script>
     function onClick(e) {
-        {#e.target.openPopup();#}
-        e.target._popup.openOn(mymap);
+        e.target.openPopup();
+        {#e.target._popup.openOn(mymap);#}
     }
 
     console.log("markers starting");
-        {% for address in addresses %}var marker = L.marker({{ address.latLng }}).addTo(mymap).on('click', onClick)
+        {% for address in addresses %}var marker_{{ address.ekis_id }} = L.marker({{ address.latLng }}).addTo(mymap).on('click', onClick)
         {% if address.isMain %}.bindPopup("<b>" + "{{ address.fullname }}" + "</b><br/>Главный корпус");
             mymap.setView({{ address.latLng }}, 13);
         {% else %}.bindPopup("{{ address.fullname }}");
@@ -199,7 +186,7 @@
             console.log("marker:" + {{ address.latLng }});
         {% endfor %}
     console.log("markers done");
-    marker.openPopup();
+    marker_13806.openPopup();
 </script>
 </body>
 </html>

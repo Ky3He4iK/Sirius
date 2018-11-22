@@ -40,7 +40,9 @@ def search(request):
     # try:
         name = request.GET['s']
         data = Core.get_schools_by_string(name)
-        return render(request, "result.html", {'schools': data, 'count': len(data)})
+        res = render(request, "result.html", {'schools': data, 'count': len(data)})
+        print("request")
+        return res
     # except Exception as e:
     #     print(e, e.args)
     #     return redirect("/main")

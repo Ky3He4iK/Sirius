@@ -36,7 +36,7 @@ _ege = [col[4:] for col in list(_table.columns) if col[:4] == "EGE_" and _check_
 _oge = [col[4:] for col in list(_table.columns) if col[:4] == "OGE_" and _check_subj(col)]
 coordinates = _addresses_to_arr(_addresses)
 coordinates_showing = [coord for coord in coordinates[::3] if coord['isMain']]
-lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'okrugs': _okrugs,
+lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'oge': _oge, 'okrugs': _okrugs,
          'coordinates_showing': coordinates_showing}
 lists_json = json.dumps(lists, ensure_ascii=False)
 
@@ -180,8 +180,10 @@ def get_school(ekis_id):
         "ogrn": str(t.ogrn[0]),
         "okato": str(t.okato[0]),
         "ou_class": str(t.ou_class[0]),
-        "subjects_ege": {subj: float(t["EGE_" + subj][0]) for subj in _ege if int(t["EGE_" + subj][0]) != 0},
-        "subjects_oge": {subj: float(t["OGE_" + subj][0]) for subj in _oge if int(t["OGE_" + subj][0]) != 0},
+        "subjects_ege": {subj: float(t["EGE_" + subj][0]) for subj in _ege if str(t["EGE_" + subj][0]) != 'nan'
+                         and int(t["EGE_" + subj][0]) != 0},
+        "subjects_oge": {subj: float(t["OGE_" + subj][0]) for subj in _oge if str(t["OGE_" + subj][0]) != 'nan'
+                         and int(t["OGE_" + subj][0]) != 0},
         "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id].reset_index()),
         "schools_like_this": [_get_school_pair(t['Schools_Like_This_' + str(i)][0]) for i in range(1, 11)],
     }

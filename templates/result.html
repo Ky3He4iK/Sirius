@@ -5,17 +5,14 @@
     {% include "structure/map_connect.html" %}
     <title>Schools of Moscow</title>
 
-    <link rel="stylesheet" href="../static/css/mainSearch.css">
-    <link rel="stylesheet" href="../static/css/media.css"/>
-    <script src="../static/lib/chart/Chart.min.js"></script>
+    <link rel="stylesheet" href="/static/css/mainSearch.css">
+    <link rel="stylesheet" href="/static/css/media.css"/>
+    <script src="/static/lib/chart/Chart.min.js"></script>
 </head>
-
-
 <body>
 <div class="content">
     <div class="loader">
         <div class="loaderInner">
-
         </div>
     </div>
     <header class="main_head">
@@ -23,21 +20,19 @@
             <div class="col-md-4">
                 <a href="/main" class="name">Schools of Moscow</a>
             </div>
-            <div class="col-md-4 col-md-push-4">
+            {% comment %}<div class="col-md-4 col-md-push-4">
                 <input class="input" name="s" placeholder="Искать здесь..." type="search" />
                 <button class="submit" type="submit"><i class="fas fa-search"></i></button>
-            </div>
+            </div>{% endcomment %}
         </div>
     </header>
-
     <!--   font-family: 'Libre Baskerville', serif;   -->
     <div class="container">
         <section class="back">
             <div class="col-md-12 back">
-
                 <section id="geomap" class="s_about light">
                     <h2>Результаты поиска</h2>
-                    {% include "structure/map_init.xml" %}
+                    {% include "structure/map_init.html" %}
                 </section>
             </div>
             <div class="col-md-12 back">
@@ -50,7 +45,7 @@
                 </div>
                 {% for school in schools %}
                     <div class="school">
-                        <div class="nameOfSchool"><a href="/school?id={{ school.ekis_id }}">
+                        <div class="col-md-6 nameOfSchool"><a href="/school?id={{ school.ekis_id }}">
                             {{ school.name }}</a></div>
                         <div class="profile"><a href="/school?id={{ school.ekis_id }}">{{ school.profiles }}</a></div>
                         {#<div class="type"><a href="/school?id={{ school.ekis_id }}">{{ school.ou_class }}</a></div>#}
@@ -64,25 +59,21 @@
 <!-- FOOTER -->
 {% include "structure/footer.xml" %}
 
-<script src="../static/lib/jquery/jquery-2.1.3.min.js"></script>
-<script src="../static/lib/parallax/parallax.min.js"></script>
+<script src="/static/lib/jquery/jquery-2.1.3.min.js"></script>
+<script src="/static/lib/parallax/parallax.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
         integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
         crossorigin=""></script>
-<script src="../static/lib/animate/animate-css.js"></script>
-<script src="../static/lib/scroll/PageScroll2id.min.js"></script>
-
+<script src="/static/lib/animate/animate-css.js"></script>
+<script src="/static/lib/scroll/PageScroll2id.min.js"></script>
+<script src="/static/js/commonResults.js"></script>
 
 {# marks all schools on map #}
 <script>
-    function onClick(e) {
-        e.target.openPopup();
-    }
-
     console.log("markers starting");
     {% for school in schools %}
         {% for address in school.addresses %}
-            L.marker({{ address.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ school.ekis_id }}\">" + "{{ school.name }}" +"</a>").on('click', onClick);
+            L.marker({{ address.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ school.ekis_id }}\">" + "{{ school.name }}" + "</a>").on('click', onClick);
             console.log("marker:" + {{ address.latLng }});
         {% endfor %}
     {% endfor %}
