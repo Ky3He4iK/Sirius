@@ -192,8 +192,19 @@ def get_school(ekis_id):
 
 def get_schools_by_string(string):
     res = []
-    for i, name in enumerate(_table.short_name):
-        if string in str(name):
+    clear_string = ''
+    for i in string:
+        if i.isalpha() or i.isdigit():
+            clear_string += i
+        else:
+            clear_string += ' '
+    words = clear_string.lower().split()
+    for i, name in enumerate(_table.short_name+' '+_table.name):
+        isIn = True
+        for word in words:
+            if not (word in str(name).lower()):
+                isIn=False
+        if isIn:
             res.append(_get_school_short_ind(i))
     return res
 
