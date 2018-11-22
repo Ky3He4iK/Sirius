@@ -8,7 +8,7 @@ $(window).load(function () {
     $(".loader").delay(400).fadeOut("slow");
 });
 
-if (ege_data !== []) {
+if (ege_data.length !== 0) {
     var marksCanvas = document.getElementById("EGE");
 
     var chartOptions = {
@@ -35,7 +35,7 @@ if (ege_data !== []) {
         options: chartOptions
     });
 }
-if (oge_data !== []) {
+if (oge_data.length !== 0) {
     var Canvas = document.getElementById("OGE");
 
     var Options = {
@@ -58,6 +58,25 @@ if (oge_data !== []) {
     var Chart = new Chart(Canvas, {
         type: 'radar',
         data: oge_data,
+        options: Options
+    });
+}
+
+if (vyzes_data.length !== 0) {
+    var Canvas = document.getElementById("VYZES");
+
+    var Options = {
+        responsive: true,
+        legend: {
+            position: 'top',
+            title: {
+                display: false
+            }
+        }
+    };
+    var Chart = new Chart(Canvas, {
+        type: 'pie',
+        data: vyzes_data,
         options: Options
     });
 }

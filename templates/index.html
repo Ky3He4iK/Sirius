@@ -123,7 +123,7 @@
     <div class="buttons"><span class="filterbutsec inactive"><i class="fas fa-chevron-up"></i></span></div>
     <div class="container">
         <div class="col-md-12">
-            {% include "structure/map_init.xml" %}
+            {% include "structure/map_init.html" %}
         </div>
     </div>
 </section>
@@ -155,7 +155,7 @@
     console.log("markers starting");
     {#var markers = new L.MarkerClusterGroup();#}
     {% for coord in coordinates_showing %}{% if coord.isMain %}
-    var marker = L.marker({{ coord.latLng }}).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + "{{ coord.name }}" + "</a>")
+    var marker_{{ coord.ekis_id }} = L.marker({{ coord.latLng }}).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + "{{ coord.name }}" + "</a>")
         .on('click', onClick).addTo(mymap);
     {#markers.addLayer(marker);#}
     {% endif %}{% endfor %}

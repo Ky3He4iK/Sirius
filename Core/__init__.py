@@ -36,7 +36,7 @@ _ege = [col[4:] for col in list(_table.columns) if col[:4] == "EGE_" and _check_
 _oge = [col[4:] for col in list(_table.columns) if col[:4] == "OGE_" and _check_subj(col)]
 coordinates = _addresses_to_arr(_addresses)
 coordinates_showing = [coord for coord in coordinates[::3] if coord['isMain']]
-lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'okrugs': _okrugs,
+lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'oge': _oge, 'okrugs': _okrugs,
          'coordinates_showing': coordinates_showing}
 lists_json = json.dumps(lists, ensure_ascii=False)
 
@@ -108,14 +108,14 @@ def _filtering(filters):
     def _filter_by_ege(ege):
         sets = [set([ind for ind in inds
                      if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
-                        and subj['min'] <= _table['EGE_' + subj['name']][ind] <= subj['max']])
+                     and subj['min'] <= _table['EGE_' + subj['name']][ind] <= subj['max']])
                 for subj in ege if subj['min'] != 0 or subj['max'] != 100]
         return list(sets[0].intersection(*sets[1:]))
 
     def _filter_by_oge(oge):
         sets = [set([ind for ind in inds
                      if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
-                        and subj['min'] <= _table['OGE_' + subj['name']][ind] <= subj['max']])
+                     and subj['min'] <= _table['OGE_' + subj['name']][ind] <= subj['max']])
                 for subj in oge if subj['min'] != 2 or subj['max'] != 5]
         return list(sets[0].intersection(*sets[1:]))
 
@@ -180,10 +180,13 @@ def get_school(ekis_id):
         "ogrn": str(t.ogrn[0]),
         "okato": str(t.okato[0]),
         "ou_class": str(t.ou_class[0]),
-        "subjects_ege": {subj: float(t["EGE_" + subj][0]) for subj in _ege if int(t["EGE_" + subj][0]) != 0},
-        "subjects_oge": {subj: float(t["OGE_" + subj][0]) for subj in _oge if int(t["OGE_" + subj][0]) != 0},
+        "subjects_ege": {subj: float(t["EGE_" + subj][0]) for subj in _ege if str(t["EGE_" + subj][0]) != 'nan'
+                         and int(t["EGE_" + subj][0]) != 0},
+        "subjects_oge": {subj: float(t["OGE_" + subj][0]) for subj in _oge if str(t["OGE_" + subj][0]) != 'nan'
+                         and int(t["OGE_" + subj][0]) != 0},
         "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id].reset_index()),
         "schools_like_this": [_get_school_pair(t['Schools_Like_This_' + str(i)][0]) for i in range(1, 11)],
+        "has_vyzes": True
     }
     res['has_ege'] = len(res['subjects_ege']) > 0
     res['has_oge'] = len(res['subjects_oge']) > 0
@@ -199,11 +202,11 @@ def get_schools_by_string(string):
         else:
             clear_string += ' '
     words = clear_string.lower().split()
-    for i, name in enumerate(_table.short_name+' '+_table.name):
+    for i, name in enumerate(_table.short_name + ' ' + _table.name):
         isIn = True
         for word in words:
             if not (word in str(name).lower()):
-                isIn=False
+                isIn = False
         if isIn:
             res.append(_get_school_short_ind(i))
     return res
