@@ -116,7 +116,7 @@ def _filtering(filters):
 
     def _filter_by_oge(oge):
         sets = [set([ind for ind in inds
-                     if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
+                     if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _oge
                      and subj['min'] <= _table['OGE_' + subj['name']][ind] <= subj['max']])
                 for subj in oge if subj['min'] != 2 or subj['max'] != 5]
         if len(sets) == 0:
