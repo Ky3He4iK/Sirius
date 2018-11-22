@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+i<!DOCTYPE html>
 <html>
 <head>
     {% include "structure/head.html" %}
@@ -28,12 +28,36 @@
     </header>
     <!--   font-family: 'Libre Baskerville', serif;   -->
     <div class="container">
-        <section class="back">
+        <div class="back">
             <div class="col-md-12 back">
                 <section id="geomap" class="s_about light">
                     <h2>Результаты поиска</h2>
-                    {% include "structure/map_init.html" %}
                 </section>
+                <div id="map" class="map"></div>
+                <script>
+                    let markerLayer = L.layerGroup([
+                        {% for school in schools %}
+                            {% for address in school.addresses %}
+                                L.marker({{ address.latLng }}).bindPopup("<a href=\"/school?id={{ school.ekis_id }}\">" + "{{ school.name }}" + "</a>"),
+                            {% endfor %}
+                        {% endfor %}
+                    ])
+                    ;
+                    let mapLayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia3kzaGU0aWsiLCJhIjoiY2pvZnA0d3BzMDY3bDN4cXJ4eDg3NjE3NSJ9.SiLSIUGchbNQWCLmwSpTxQ',
+                        {
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>contributors, <ahref="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <ahref="https://www.mapbox.com/">Mapbox</a>',
+                            maxZoom: 16,
+                            id: 'mapbox.streets',
+                            accessToken: 'your.mapbox.access.token'
+                        });
+
+                    const mmap = L.map('map', {
+                        center: [55.75497, 37.62432],
+                        zoom: 10,
+                        layers: [mapLayer, markerLayer]
+                    });
+                    console.log("map done");
+                </script>
             </div>
             <div class="col-md-12 back">
                 <h1 class="countschools">Найдено {{ count }}:</h1>
@@ -52,7 +76,7 @@
                     </div>
                 {% endfor %}
             </div>
-        </section>
+        </div>
     </div>
 </div>
 
@@ -68,16 +92,5 @@
 <script src="/static/lib/scroll/PageScroll2id.min.js"></script>
 <script src="/static/js/commonResults.js"></script>
 
-{# marks all schools on map #}
-<script>
-    console.log("markers starting");
-    {% for school in schools %}
-        {% for address in school.addresses %}
-            L.marker({{ address.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ school.ekis_id }}\">" + "{{ school.name }}" + "</a>");
-            console.log("marker:" + {{ address.latLng }});
-        {% endfor %}
-    {% endfor %}
-    console.log("markers done");
-</script>
 </body>
 </html>
