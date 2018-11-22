@@ -27,7 +27,8 @@ def humans(*_, **__):
 
 def adv_search(request):
     # try:
-        if request.method != 'POST' or 'data' not in request.POST:
+    #
+        if 'data' not in request.POST:
             return redirect("/main")
         data = Core.get_schools_filter(request.POST['data'])
         return render(request, "result.html", data)

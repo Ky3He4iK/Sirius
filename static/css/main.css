@@ -242,6 +242,10 @@ section h2 {
     display: none;
     transition: 0.3s;
 }
+.active {
+    display: none;
+    transition: 0.3s;
+}
 
 .place_sec {
     padding-top: 65px;
