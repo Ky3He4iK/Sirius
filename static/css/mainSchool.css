@@ -82,8 +82,8 @@ section.dark {
     background-color: #666;
     z-index: 9;
     color: white;
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .top_wrapper {
@@ -202,8 +202,9 @@ section h2 {
 }
 
 .input {
+    margin-left: 40%;
     margin-top: 11px;
-    width: 80%;
+    width: 60%;
     font-size: 13px;
     padding: 6px 0 4px 10px;
     height: 35px;
@@ -228,11 +229,12 @@ section h2 {
     background: white;
 }
 
+
 .submit {
     margin-top: 11px;
     position: absolute;
     top: 0;
-    right: 1.5%;
+    right: 10%;
     width: 70px;
     height: 45px;
     border: none;
@@ -243,6 +245,7 @@ section h2 {
     border-radius: 0 35px 35px 0;
     cursor: pointer;
 }
+
 
 .filters {
     padding: 0;
@@ -301,6 +304,10 @@ section h2 {
 }
 
 .aboutt {
+    padding: 0 5%;
+}
+
+.addresses {
     padding: 0 5%;
 }
 

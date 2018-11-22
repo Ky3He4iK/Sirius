@@ -129,7 +129,7 @@
         let markerLayer = L.layerGroup([
             {% for coord in coordinates_showing %}
                 {% if coord.isMain %}
-                    L.marker({{ coord.latLng }}).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + "{{ coord.name }}" + "</a>"),
+                    L.marker({{ coord.latLng }}).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">{{ coord.name }}</a>"),
                 {% endif %}
             {% endfor %}
         ]);
@@ -163,9 +163,6 @@
 
 {#</section>#}
 
-<section id="about" class="s_about dark">
-
-</section>
 <!-- FOOTER -->
 {% include "structure/footer.xml" %}
 
