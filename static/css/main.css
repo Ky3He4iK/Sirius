@@ -177,7 +177,7 @@ section h2 {
 
 }
 
-#mapid {
+.mymap {
     margin-top: 50px;
     height: 600px;
     width: 100%;
@@ -264,3 +264,9 @@ section h2 {
 
 }
 
+.map {
+    margin-top: 50px;
+    height: 600px;
+    width: 100%;
+    z-index: 10;
+}

@@ -300,3 +300,10 @@ section h2 {
     color: black;
     /*font-size: 18px;*/
 }
+
+.map {
+    margin-top: 50px;
+    height: 600px;
+    width: 100%;
+    z-index: 10;
+}

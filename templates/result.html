@@ -73,7 +73,7 @@
     console.log("markers starting");
     {% for school in schools %}
         {% for address in school.addresses %}
-            L.marker({{ address.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ school.ekis_id }}\">" + "{{ school.name }}" + "</a>").on('click', onClick);
+            L.marker({{ address.latLng }}).addTo(mymap).bindPopup("<a href=\"/school?id={{ school.ekis_id }}\">" + "{{ school.name }}" + "</a>");
             console.log("marker:" + {{ address.latLng }});
         {% endfor %}
     {% endfor %}
