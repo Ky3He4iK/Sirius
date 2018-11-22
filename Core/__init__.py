@@ -94,11 +94,18 @@ def _get_schools_short_ind(inds):
 
 
 def _filtering(filters):
-    def _filter_by_district(names):
-        return [ind for (ind, district) in enumerate(_addresses.okrug) if district in names]
+    def _filter_by_okrug(names):
+        def _has_filial(ind):
+            tt = _addresses[_addresses.ekis_id == _table.ekis_id[ind]]
+            for okrug in tt.okrug:
+                if okrug in names:
+                    return True
+            return False
+
+        return [ind for (ind, okrug) in enumerate(_addresses.okrug) if _has_filial(ind)]
 
     def _filter_by_class(number):
-        return [ind for ind in inds if _table.min_parallel[ind] <= number <= _table.max_parallel[ind]]
+        return [ind for ind in range(len(_table)) if _table.min_parallel[ind] <= number <= _table.max_parallel[ind]]
 
     def _filter_by_profiles(profiles):
         sets = [set([ind for ind in inds if profile in _profiles and _table['p_' + profile][ind] == 1])
@@ -126,18 +133,18 @@ def _filtering(filters):
     if len(filters) == 0:  # special for lazy pasha 'cause he can't use /api/get_lists
         return list(range(len(_table)))
 
-    if 'districts' in filters and len(filters['districts']) > 0:
-        inds = _filter_by_district(filters['districts'])
-    else:
-        inds = list(range(len(_table)))
     if 'parallel' in filters:
         inds = _filter_by_class(filters['parallel'])
-    if 'profiles' in filters and len(_profiles) > len(filters['profiles']) > 0:
+    else:
+        inds = list(range(len(_table)))
+    if 'profiles' in filters and len(filters['profiles']) > 0:
         inds = _filter_by_profiles(filters['profiles'])
     if 'ege' in filters and len(filters['ege']) > 0:
         inds = _filter_by_ege(filters['ege'])
     if 'oge' in filters and len(filters['oge']) > 0:
         inds = _filter_by_oge(filters['oge'])
+    if 'okrugs' in filters and len(filters['okrugs']) > 0:
+        inds = _filter_by_okrug(filters['okrugs'])
     return inds
 
 
@@ -145,29 +152,19 @@ def _to_json(d):
     return json.dumps(d, ensure_ascii=False, encoding='UTF-8')
 
 
+# get top 10 vuzes for this ekis_id
+# t is dataframe with one string (this ekis_id), columns are vuzes
+def get_top_vyzes(t):
+    new_t = t.fillna(0)
+    d = {}
+    for i in _vyzes:
+        d[i] = new_t.at[0, 'В_' + i]
+    d_sorted = sorted(d.items(), key=lambda kv: kv[1])
+    return d_sorted[-10:][::-1]
+
+
 def get_school(ekis_id):
     t = _table[_table.ekis_id == ekis_id].reset_index()
-    '''name
-        name_full
-        site
-        email
-        principal
-        stud_from
-        stud_to
-        profiles
-        financing
-        address
-        ogrn
-        okato
-        ou_class
-        subjects_ege - dict "name": "balls"
-        subjects_oge - как subjects_ege
-        has_ege
-        has_oge
-
-        legal_address: filltext; isMain
-        schools_like_this: (ekis, name) or {"ekis": "name"}
-        '''
     if len(t) != 1:
         return {}
     res = {
@@ -190,10 +187,11 @@ def get_school(ekis_id):
                          and int(t["OGE_" + subj][0]) != 0},
         "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id].reset_index()),
         "schools_like_this": [_get_school_pair(t['Schools_Like_This_' + str(i)][0]) for i in range(1, 11)],
-        "has_vyzes": True
+        "top_vyzes": get_top_vyzes(t.loc[:, [col for col in t.columns if col[:2] == 'В_']].fillna(0))
     }
     res['has_ege'] = len(res['subjects_ege']) > 0
     res['has_oge'] = len(res['subjects_oge']) > 0
+    res['has_vyzes'] = bool(res['top_vyzes'][0][1] > 0)
     return res
 
 
@@ -219,7 +217,7 @@ def get_schools_by_string(string):
 def get_schools_filter(filters):
     """
     {
-      "districts": [
+      "okrugs": [
         "Северо-Восточный",
         "Троицкий"
       ],
