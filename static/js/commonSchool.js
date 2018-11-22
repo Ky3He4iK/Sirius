@@ -68,7 +68,7 @@ if (vyzes_data.length !== 0) {
     var Options = {
         responsive: true,
         legend: {
-            position: 'top',
+            position: 'bottom',
             title: {
                 display: false
             }
