@@ -55,7 +55,7 @@ if (oge_data.length !== 0) {
             display: false
         }
     };
-    var Chart = new Chart(Canvas, {
+    var radarChartOge = new Chart(Canvas, {
         type: 'radar',
         data: oge_data,
         options: Options
@@ -74,7 +74,7 @@ if (vyzes_data.length !== 0) {
             }
         }
     };
-    var Chart = new Chart(Canvas, {
+    var pieChart = new Chart(Canvas, {
         type: 'pie',
         data: vyzes_data,
         options: Options

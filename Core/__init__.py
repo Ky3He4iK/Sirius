@@ -110,6 +110,8 @@ def _filtering(filters):
                      if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
                      and subj['min'] <= _table['EGE_' + subj['name']][ind] <= subj['max']])
                 for subj in ege if subj['min'] != 0 or subj['max'] != 100]
+        if len(sets) == 0:
+            return inds
         return list(sets[0].intersection(*sets[1:]))
 
     def _filter_by_oge(oge):
@@ -117,6 +119,8 @@ def _filtering(filters):
                      if 'name' in subj and 'min' in subj and 'max' in subj and subj['name'] in _ege
                      and subj['min'] <= _table['OGE_' + subj['name']][ind] <= subj['max']])
                 for subj in oge if subj['min'] != 2 or subj['max'] != 5]
+        if len(sets) == 0:
+            return inds
         return list(sets[0].intersection(*sets[1:]))
 
     if len(filters) == 0:  # special for lazy pasha 'cause he can't use /api/get_lists
