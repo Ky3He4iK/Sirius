@@ -21,7 +21,7 @@
                 <a href="/main" class="name">Schools of Moscow</a>
             </div>
             <form class="search" action="/main" method="get">
-                <input class="input" name="s" placeholder="Искать здесь..." type="search"/>
+                <input class="input" name="s" placeholder="Введите название школы" type="search"/>
                 <button class="submit" type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
@@ -35,6 +35,11 @@
                 <div id="map" class="map"></div>
                 <script>
                     let center = [55.75497, 37.62432];
+                    let zoom = 10;
+                    {% for address in addresses %}{% if address.isMain %}
+                    center = {{ address.latLng }};
+                    zoom = 13;
+                    {% endif %}{% endfor %}
                     let markerLayer = L.layerGroup([
                         {% for address in addresses %}
                             L.marker({{ address.latLng }})
@@ -55,8 +60,8 @@
                         });
 
                     const mmap = L.map('map', {
-                        center: [55.75497, 37.62432],
-                        zoom: 10,
+                        center: center,
+                        zoom: zoom,
                         layers: [mapLayer, markerLayer]
                     });
                     console.log("map done");
