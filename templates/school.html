@@ -5,9 +5,9 @@
     {% include "structure/map_connect.html" %}
     <title>{{ name }} | SoM</title>
 
-    <link rel="stylesheet" href="../static/css/mainSchool.css">
-    <link rel="stylesheet" href="../static/css/media.css"/>
-    <script src="../static/lib/chart/Chart.min.js"></script>
+    <link rel="stylesheet" href="/static/css/mainSchool.css">
+    <link rel="stylesheet" href="/static/css/media.css"/>
+    <script src="/static/lib/chart/Chart.min.js"></script>
 </head>
 <body>
 <div class="content">
@@ -133,39 +133,36 @@
                 <script>const oge_data = [];</script>
             {% endif %}
             {% if has_vyzes %}
-                <div class="col-md-6 back">
+                <div class="col-md-12 back">
                     <section class="VYZES">
-                        <h1>Поступают в ВУЗЫ:</h1>
+                        <h1>Поступают в ВУЗЫ Москвы:</h1>
 
                         <canvas id="VYZES" width="100%"></canvas>
                         <script>
                             const vyzes_data = {
                                 labels: [
                                     {% for pair in top_vyzes %}
-                                        {% for a, b in pair %}
-                                            "{{ a }}",
-                                        {% endfor %}
+                                        "{{ pair.0 }}",
                                     {% endfor %}
                                 ],
                                 datasets: [{
                                     label: "Поступают в ВУЗЫ:",
                                     backgroundColor: [
-                                        "rgba(200,0,0,0.5)",
-                                        "rgba(200,0,0,0.5)",
-                                        "rgba(200,0,0,0.5)",
-                                        "rgba(200,0,0,0.5)",
-                                        "rgba(200,0,0,0.5)",
-                                        "rgba(200,0,0,0.5)",
-                                        "rgba(200,0,0,0.5)",
-                                        "rgba(200,0,0,0.5)",
-                                        "rgba(200,0,0,0.5)",
-                                        "rgba(200,0,0,0.5)"
+                                        "rgba(139, 195, 74, 0.5)",
+                                        "rgba(37, 155, 36, 0.5)",
+                                        "rgba(0xff, 0xeb, 0x3b, 0.5)",
+                                        "rgba(0x67, 0x3a, 0xb7, 0.5)",
+                                        "rgba(0x03, 0xa9, 0xf4, 0.5)",
+                                        "rgba(0xff, 0xeb, 0x3b, 0.5)",
+                                        "rgba(0xff, 0x98, 0x00, 0.5)",
+                                        "rgba(0x00, 0x96, 0x88, 0.5)",
+                                        "rgba(0xe5, 0x1c, 0x23, 0.5)",
+                                        "rgba(0x9c, 0x27, 0xb0, 0.5)"
                                     ],
+                                    {#rgba(12, 23, 34, 0.5)#}
                                     data: [
                                         {% for pair in top_vyzes %}
-                                            {% for a, b in pair %}
-                                                "{{ a }}",
-                                            {% endfor %}
+                                            "{{ pair.1 }}",
                                         {% endfor %}
                                     ]
                                 }]

@@ -14,6 +14,12 @@ _okrugs = list(_addresses.okrug.value_counts(dropna=True).reset_index()['index']
 forbidden_subject_parts = [" устный", "Математика базовая", "Сочинение"]
 forbidden_subjects = ["EGE_Математика"]
 _vyzes = [col[2:] for col in list(_table.columns) if col[:2] == "В_"]
+_vyzes_tranzit = {vyz[vyz.rfind(', ') + 1:] if ', ' in vyz else vyz: vyz for vyz in _vyzes}
+_vyzes_tranzit_r = {vyz: vyz_short for vyz, vyz_short in _vyzes_tranzit.items()}
+
+
+def _to_json(d):
+    return json.dumps(d, ensure_ascii=False)
 
 
 def _check_subj(subj):
@@ -38,7 +44,7 @@ coordinates = _addresses_to_arr(_addresses)
 coordinates_showing = [coord for coord in coordinates[::3] if coord['isMain']]
 lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'oge': _oge, 'okrugs': _okrugs,
          'coordinates_showing': coordinates_showing}
-lists_json = json.dumps(lists, ensure_ascii=False)
+lists_json = _to_json(lists)
 
 
 def _get_school_pair(ekis):
@@ -148,17 +154,13 @@ def _filtering(filters):
     return inds
 
 
-def _to_json(d):
-    return json.dumps(d, ensure_ascii=False, encoding='UTF-8')
-
-
 # get top 10 vuzes for this ekis_id
 # t is dataframe with one string (this ekis_id), columns are vuzes
-def get_top_vyzes(t):
+def _get_top_vyzes(t):
     new_t = t.fillna(0)
     d = {}
     for i in _vyzes:
-        d[i] = new_t.at[0, 'В_' + i]
+        d[i] = round(new_t.at[0, 'В_' + i], 2)
     d_sorted = sorted(d.items(), key=lambda kv: kv[1])
     return d_sorted[-10:][::-1]
 
@@ -187,7 +189,7 @@ def get_school(ekis_id):
                          and int(t["OGE_" + subj][0]) != 0},
         "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id].reset_index()),
         "schools_like_this": [_get_school_pair(t['Schools_Like_This_' + str(i)][0]) for i in range(1, 11)],
-        "top_vyzes": get_top_vyzes(t.loc[:, [col for col in t.columns if col[:2] == 'В_']].fillna(0))
+        "top_vyzes": _get_top_vyzes(t.loc[:, ['В_' + vyz for vyz in _vyzes]].fillna(0))
     }
     res['has_ege'] = len(res['subjects_ege']) > 0
     res['has_oge'] = len(res['subjects_oge']) > 0
@@ -246,15 +248,15 @@ def get_schools_filter(filters):
 
 
 def get_school_json(ekis_id):
-    return json.dumps(get_school(ekis_id), ensure_ascii=False)
+    return _to_json(get_school(ekis_id))
 
 
 def get_schools_by_string_json(string):
-    return json.dumps(get_schools_by_string(string), ensure_ascii=False)
+    return _to_json(get_schools_by_string(string))
 
 
 def get_schools_filter_json(filters):
-    return json.dumps(get_schools_filter(filters), ensure_ascii=False)
+    return _to_json(get_schools_filter(filters))
 
 
 def get_lists():
