@@ -15,7 +15,7 @@ $(document).ready(function(){
 	$(".mapbut").mPageScroll2id();
 
   	$(".filterbut").click(function(){
-		$('.filters').toggleClass('active');
+		$('.filters').removeClass('active');
 		$('.filterbut').toggleClass('active');
 		$('.filterbutsec').toggleClass('active');
 	});

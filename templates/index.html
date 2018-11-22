@@ -70,58 +70,238 @@
             <div class="buttons"><span class="filterbut"><i class="fas fa-chevron-down"></i></span></div>
         </div>
     </div>
-    <section class="filters inactive">
+    <section class="filters active">
         <div class="container">
             <div class="col-md-6">
                 <h1>Профиль:</h1>
-                <div class="profiles">
-                    {% for profile in profiles %}
-                        <p><input type="checkbox" checked>{{ profile }}</p>
-                    {% endfor %}
-                </div>
-                <div class="EGE">
-                    <h1>Баллы ЕГЭ:</h1>
-                    {% for subj in ege %}
-                        <p>
-                            <label for="amount_{{ subj }}"><h3>{{ subj }}</h3></label>
-                            <input type="text" id="amount_{{ subj }}" readonly
-                                   style="border:0; color:black; font-weight:bold; background-color: #dedede">
-                        </p>
-                        <div id="slider-range_{{ subj }}"></div>
-                    {% endfor %}
-                </div>
+				<div class="profiles">
+					<p><input type="checkbox" checked>Технический</p>
+					<p><input type="checkbox" checked>Естественно-научный</p>
+					<p><input type="checkbox" checked>Экономический</p>
+					<p><input type="checkbox" checked>Языковой</p>
+					<p><input type="checkbox" checked>Гуманитарный</p>
+				</div>
+				<div class="EGE">
+						<h1>Баллы ОГЭ:</h1>
+
+						<p>
+					   		<label for="amount_01"><h3>Английский язык:</h3></label>
+					    	<input type="text" id="amount_01" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+						</p>
+						<div id="slider-range_01"></div>
+
+						<p>
+					  <label for="amount_02"><h3>Биология:</h3></label>
+					  <input type="text" id="amount_02" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_02"></div>
+
+
+					<p>
+					  <label for="amount_03"><h3>География:</h3></label>
+					  <input type="text" id="amount_03" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_03"></div>
+
+					<p>
+					  <label for="amount_04"><h3>Информатика:</h3></label>
+					  <input type="text" id="amount_04" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_04"></div>
+
+					<p>
+					  <label for="amount_05"><h3>Испанский язык:</h3></label>
+					  <input type="text" id="amount_05" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_05"></div>
+
+					<p>
+					  <label for="amount_06"><h3>История:</h3></label>
+					  <input type="text" id="amount_06" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_06"></div>
+
+					<p>
+					  <label for="amount_07"><h3>Литература:</h3></label>
+					  <input type="text" id="amount_07" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_07"></div>
+
+					<p>
+					  <label for="amount_08"><h3>Математика:</h3></label>
+					  <input type="text" id="amount_08" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_08"></div>
+
+					<p>
+					  <label for="amount_09"><h3>Немецкий язык:</h3></label>
+					  <input type="text" id="amount_09" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_09"></div>
+
+					<p>
+					  <label for="amount_010"><h3>Обществознание:</h3></label>
+					  <input type="text" id="amount_010" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_010"></div>
+
+					<p>
+					  <label for="amount_011"><h3>Русский язык:</h3></label>
+					  <input type="text" id="amount_011" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_011"></div>
+
+					<p>
+					  <label for="amount_012"><h3>Физика:</h3></label>
+					  <input type="text" id="amount_012" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_012"></div>
+
+					<p>
+					  <label for="amount_013"><h3>Французcкий язык:</h3></label>
+					  <input type="text" id="amount_013" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_013"></div>
+
+					<p>
+					  <label for="amount_014"><h3>Химия:</h3></label>
+					  <input type="text" id="amount_014" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_014"></div>
+
+					</div>
             </div>
 
             <div class="col-md-6">
-                <h1>Округ:</h1>
-                <div class="place">
-                    {% for okrug in okrugs %}
-                        <p><input type="checkbox" checked id="V_{{ okrug }}">{{ okrug }}</p>
-                    {% endfor %}
-                    {% comment %}<p><input type="checkbox" checked>Границы ключ переломлен пополам,</p>
-                    <p><input type="checkbox" checked>А наш батюшка Ленин совсем усоп,</p>
-                    <p><input type="checkbox" checked>Он разложился на плесень и на липовый мёд,</p>
-                    <p><input type="checkbox" checked>А перестройка все идёт и идёт по плану,</p>
-                    <p><input type="checkbox" checked>А вся грязь превратилась в голый лёд. </p>
-                    <p><input type="checkbox" checked>И всё идёт по плану.</p>
-                    <p><input type="checkbox" checked>А моя душа захотела на покой,</p>
-                    <p><input type="checkbox" checked>Я обещал ей не участвовать в военной игре,</p>
-                    <p><input type="checkbox" checked>Но на фуражке на моей серп и молот и звезда,</p>
-                    <p><input type="checkbox" checked>Как это трогательно серп и молот и звезда,</p>
-                    <p><input type="checkbox" checked>Лихой фонарь ожидания мотается,</p>
-                    <p><input type="checkbox" checked>И ВСЕ ИДЕТ ПО ПЛАНУ</p>{% endcomment %}
-                    <h1>Класс обучения:</h1>
-                    <form class="radiobut" action="">
-                        {% for class in classes %}
-                            <div class="rb"><input name="class" type="radio" value="{{ class }}"><br>{{ class }}
-                            </div>{% endfor %}
-                        <input type="submit" value="Submit">
-                    </form>
-                </div>
+               <h1>Округ:</h1>
+				<div class="place">
+					<p><input type="checkbox" id = "okrug_0" checked="">Южный</p>
+<p><input type="checkbox" id = "okrug_1" checked="">Новомосковский</p>
+<p><input type="checkbox" id = "okrug_2" checked="">Восточный</p>
+<p><input type="checkbox" id = "okrug_3" checked="">Северный</p>
+<p><input type="checkbox" id = "okrug_4" checked="">Юго-Восточный</p>
+<p><input type="checkbox" id = "okrug_5" checked="">Юго-Западный</p>
+<p><input type="checkbox" id = "okrug_6" checked="">Центральный</p>
+<p><input type="checkbox" id = "okrug_7" checked="">Северо-Западный</p>
+<p><input type="checkbox" id = "okrug_8" checked="">Троицкий</p>
+<p><input type="checkbox" id = "okrug_9" checked="">Западный</p>
+<p><input type="checkbox" id = "okrug_10" checked="">Северо-Восточный</p>
+<p><input type="checkbox" id = "okrug_11" checked="">Зеленоградский</p>
+					<h1>Класс обучения:</h1>
+					<form class="radiobut" action="">
+					  <div class="rb"><input name="class" type="radio" id = "class_1" value="1"><br>1</div>
+<div class="rb"><input name="class" type="radio" id = "class_2" value="2"><br>2</div>
+<div class="rb"><input name="class" type="radio" id = "class_3" value="3"><br>3</div>
+<div class="rb"><input name="class" type="radio" id = "class_4" value="4"><br>4</div>
+<div class="rb"><input name="class" type="radio" id = "class_5" value="5"><br>5</div>
+<div class="rb"><input name="class" type="radio" id = "class_6" value="6"><br>6</div>
+<div class="rb"><input name="class" type="radio" id = "class_7" value="7"><br>7</div>
+<div class="rb"><input name="class" type="radio" id = "class_8" value="8"><br>8</div>
+<div class="rb"><input name="class" type="radio" id = "class_9" value="9"><br>9</div>
+<div class="rb"><input name="class" type="radio" id = "class_10" value="10"><br>10</div>
+<div class="rb"><input name="class" type="radio" id = "class_11" value="11"><br>11</div>
+<div class="rb"><input name="class" type="radio" id = "class_12" value="12"><br>12</div> 
+					</form>
+
+					<div class="EGE">
+					<h1>Баллы ЕГЭ:</h1>
+					
+					
+					<p>
+					  <label for="amount_1"><h3>Английский язык:</h3></label>
+					  <input type="text" id="amount_1" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_1"></div>
+					
+
+					<p>
+					  <label for="amount_2"><h3>Биология:</h3></label>
+					  <input type="text" id="amount_2" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_2"></div>
+
+
+					<p>
+					  <label for="amount_3"><h3>География:</h3></label>
+					  <input type="text" id="amount_3" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_3"></div>
+
+					<p>
+					  <label for="amount_4"><h3>Информатика и ИКТ:</h3></label>
+					  <input type="text" id="amount_4" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_4"></div>
+
+					<p>
+					  <label for="amount_5"><h3>Испанский язык:</h3></label>
+					  <input type="text" id="amount_5" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_5"></div>
+
+					<p>
+					  <label for="amount_6"><h3>История:</h3></label>
+					  <input type="text" id="amount_6" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_6"></div>
+
+					<p>
+					  <label for="amount_7"><h3>Литература:</h3></label>
+					  <input type="text" id="amount_7" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_7"></div>
+
+					<p>
+					  <label for="amount_8"><h3>Математика профильная:</h3></label>
+					  <input type="text" id="amount_8" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_8"></div>
+
+					<p>
+					  <label for="amount_9"><h3>Немецкий язык:</h3></label>
+					  <input type="text" id="amount_9" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_9"></div>
+
+					<p>
+					  <label for="amount_10"><h3>Обществознание:</h3></label>
+					  <input type="text" id="amount_10" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_10"></div>
+
+					<p>
+					  <label for="amount_11"><h3>Русский язык:</h3></label>
+					  <input type="text" id="amount_11" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_11"></div>
+
+					<p>
+					  <label for="amount_12"><h3>Физика:</h3></label>
+					  <input type="text" id="amount_12" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_12"></div>
+
+					<p>
+					  <label for="amount_13"><h3>Французcкий язык:</h3></label>
+					  <input type="text" id="amount_13" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_13"></div>
+
+					<p>
+					  <label for="amount_14"><h3>Химия:</h3></label>
+					  <input type="text" id="amount_14" readonly style="border:0; color:black; font-weight:bold; background-color: #dedede">
+					</p>
+					<div id="slider-range_14"></div>
+					
+				</div>
+
+				</div>
+				<br>
+				<center><button onclick="filtersSend()">Искать</button></center>
             </div>
         </div>
     </section>
-    <div class="buttons"><span class="filterbutsec inactive"><i class="fas fa-chevron-up"></i></span></div>
+    <div class="buttons"><span class="filterbutsec active"><i class="fas fa-chevron-up"></i></span></div>
 
     {#    {% include "structure/map_init.html" %}#}
     <script>
@@ -178,5 +358,71 @@
 <script src="/static/lib/scroll/PageScroll2id.min.js"></script>
 <script src="/static/lib/slider/nouislider.min.js"></script>
 <script src="/static/js/common.js"></script>
+    
+<script>
+function getFilters(){
+	var ret_json = "{"; 
+	var subjects = ['(zero element)', 'Английский язык', 'Биология', 'География', 'Информатика и ИКТ', 'Испанский язык', 'История', 'Литература', 'Математика профильная', 'Немецкий язык', 'Обществознание', 'Русский язык', 'Физика', 'Французcкий язык', 'Химия'];
+	ret_json+='"ege":[';
+	for (var i =1; i<=14; i++) {
+			ret_json+='{"name":"'+subjects[i]+'", "min":'+parseInt(document.querySelector("#amount_"+i).value.split('-')[0])+', "max":'+parseInt(document.querySelector("#amount_"+i).value.split('-')[1])+'}';
+			if (i<14){
+				ret_json+=',';
+			}
+	}
+	ret_json+=']';
+	var subjects =  ['(zero object)', 'Английский язык', 'Биология', 'География', 'Информатика', 'Испанский язык', 'История', 'Литература', 'Математика', 'Немецкий язык', 'Обществознание', 'Русский язык', 'Физика', 'Французский язык', 'Химия'];
+	ret_json+=', "oge":[';
+	for (var i=1; i<=14; i++) {
+		ret_json+='{"name":"'+subjects[i]+'", "min":'+parseInt(document.querySelector("#amount_0"+i).value.split('-')[0])+', "max":'+parseInt(document.querySelector("#amount_0"+i).value.split('-')[1])+'}';
+			if (i<14){
+				ret_json+=',';
+			}	
+	}
+	ret_json+='], "okrugs":[';
+	okrugs = [];
+	all_okrugs = ['Южный','Новомосковский','Восточный','Северный','Юго-Восточный','Юго-Западный','Центральный','Северо-Западный','Троицкий','Западный','Северо-Восточный','Зеленоградский'];
+	for (var i=0; i<12; i++) {
+		if (document.getElementById('okrug_'+i).checked) {
+			okrugs.push(all_okrugs[i])
+		}
+	}
+	for (var i=0; i<okrugs.length; i++) {
+		ret_json+='"'+okrugs[i]+'"';
+		if (i<okrugs.length-1) {
+			ret_json+=','
+		}
+	}
+	ret_json+='], "profiles":[';
+	profiles = ['Технический', 'Естественно-научный', 'Экономический', 'Языковой', 'Гуманитарный'];
+	prof = []
+	for (i = 0; i<5; i++) {
+		if (document.querySelector('#geomap > section > div > div:nth-child(1) > div.profiles > p:nth-child('+(i+1)+') > input[type="checkbox"]').checked) {
+			prof.push(profiles[i])
+		}
+	}
+	for (i=0; i<prof.length; i++){
+		ret_json+='"'+prof[i]+'"';
+		if (i<prof.length-1){
+			ret_json+=','
+		}
+	}
+	ret_json+=']'
+	parallel = 0
+	for (i=1; i<=12; i++){
+		if (document.querySelector('#geomap > section > div > div:nth-child(2) > div > form > div:nth-child('+i+')').checked){
+			parallel = i
+		}
+	}
+	if (parallel>0){
+		ret_json+=',"parallel":'+parallel
+	}
+	ret_json+='}';
+	return ret_json;
+}
+function filtersSend(){
+	window.location.href = '/search?filters='+getFilters()
+}
+</script>
 </body>
 </html>
