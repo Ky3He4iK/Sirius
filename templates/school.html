@@ -142,7 +142,7 @@
                         <script>
                             const vyzes_data = {
                                 labels: [
-                                    {% for name, value in subjects_oge.items %}
+                                    {% for name, value in vyzes.items %}
                                         "{{ name }}",
                                     {% endfor %}
                                 ],
@@ -161,7 +161,7 @@
                                         "rgba(200,0,0,0.5)"
                                     ],
                                     data: [
-                                        {% for _, value in subjects_oge.items %}
+                                        {% for _, value in vyzes.items %}
                                             {{ value }},
                                         {% endfor %}
                                     ]
