@@ -41,7 +41,7 @@ def _addresses_to_arr(tt):
 _ege = [col[4:] for col in list(_table.columns) if col[:4] == "EGE_" and _check_subj(col)]
 _oge = [col[4:] for col in list(_table.columns) if col[:4] == "OGE_" and _check_subj(col)]
 coordinates = _addresses_to_arr(_addresses)
-coordinates_showing = [coord for coord in coordinates[::3] if coord['isMain']]
+coordinates_showing = [coord for coord in coordinates[::2] if coord['isMain']]
 lists = {'coordinates': coordinates, 'profiles': _profiles, 'ege': _ege, 'oge': _oge, 'okrugs': _okrugs,
          'coordinates_showing': coordinates_showing}
 lists_json = _to_json(lists)
