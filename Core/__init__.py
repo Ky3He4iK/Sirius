@@ -186,6 +186,7 @@ def get_school(ekis_id):
                          and int(t["OGE_" + subj][0]) != 0},
         "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id].reset_index()),
         "schools_like_this": [_get_school_pair(t['Schools_Like_This_' + str(i)][0]) for i in range(1, 11)],
+        "has_vyzes": True
     }
     res['has_ege'] = len(res['subjects_ege']) > 0
     res['has_oge'] = len(res['subjects_oge']) > 0

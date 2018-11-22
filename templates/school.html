@@ -54,7 +54,7 @@
                     {% if legal_address != 'nan' %}
                         <li>Юридический адрес: {{ address }}</li>{% endif %}
                     {% if financing != 'nan' %}
-                        <li>{{ financing }}</li>{% endif %}
+                        <li>Финансирование: {{ financing }}</li>{% endif %}
                     {% comment %}{% if ogrn != 'nan' %}
                         <li>ОГРН: {{ ogrn }}</li>{% endif %}
                     {% if okato != 'nan' %}
@@ -133,6 +133,46 @@
             {% else %}
                 <script>const oge_data = [];</script>
             {% endif %}
+            {% if has_vyzes %}
+                <div class="col-md-6 back">
+                    <section class="VYZES">
+                        <h1>Поступают в ВУЗЫ:</h1>
+
+                        <canvas id="VYZES" width="100%"></canvas>
+                        <script>
+                            const vyzes_data = {
+                                labels: [
+                                    {% for name, value in subjects_oge.items %}
+                                        "{{ name }}",
+                                    {% endfor %}
+                                ],
+                                datasets: [{
+                                    label: "Поступают в ВУЗЫ:",
+                                    backgroundColor: [
+                                        "rgba(200,0,0,0.5)",
+                                        "rgba(200,0,0,0.5)",
+                                        "rgba(200,0,0,0.5)",
+                                        "rgba(200,0,0,0.5)",
+                                        "rgba(200,0,0,0.5)",
+                                        "rgba(200,0,0,0.5)",
+                                        "rgba(200,0,0,0.5)",
+                                        "rgba(200,0,0,0.5)",
+                                        "rgba(200,0,0,0.5)",
+                                        "rgba(200,0,0,0.5)"
+                                    ],
+                                    data: [
+                                        {% for _, value in subjects_oge.items %}
+                                            {{ value }},
+                                        {% endfor %}
+                                    ]
+                                }]
+                            }
+                        </script>
+                    </section>
+                </div>
+            {% else %}
+                <script>const vyzes_data = [];</script>
+            {% endif %}
             <div class="col-md-12 back">
                 <div class="addresses">
                     <h1>Адреса школ</h1>
@@ -163,14 +203,14 @@
 <!-- FOOTER -->
 {% include "structure/footer.xml" %}
 
-<script src="../static/lib/jquery/jquery-2.1.3.min.js"></script>
-<script src="../static/lib/parallax/parallax.min.js"></script>
+<script src="/static/lib/jquery/jquery-2.1.3.min.js"></script>
+<script src="/static/lib/parallax/parallax.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
         integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
         crossorigin=""></script>
-<script src="../static/lib/animate/animate-css.js"></script>
-<script src="../static/lib/scroll/PageScroll2id.min.js"></script>
-<script src="../static/js/commonSchool.js"></script>
+<script src="/static/lib/animate/animate-css.js"></script>
+<script src="/static/lib/scroll/PageScroll2id.min.js"></script>
+<script src="/static/js/commonSchool.js"></script>
 <script>
     function onClick(e) {
         e.target.openPopup();

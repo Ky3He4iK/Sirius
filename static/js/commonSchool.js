@@ -61,3 +61,22 @@ if (oge_data.length !== 0) {
         options: Options
     });
 }
+
+if (vyzes_data.length !== 0) {
+    var Canvas = document.getElementById("VYZES");
+
+    var Options = {
+        responsive: true,
+        legend: {
+            position: 'top',
+            title: {
+                display: false
+            }
+        }
+    };
+    var Chart = new Chart(Canvas, {
+        type: 'pie',
+        data: vyzes_data,
+        options: Options
+    });
+}
