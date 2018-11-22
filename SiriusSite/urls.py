@@ -22,7 +22,7 @@ import Site
 import Api
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('api/get', Api.get_school),
     path('api/get/', Api.get_school),
     path('api/adv_search', Api.adv_search),

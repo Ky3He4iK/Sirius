@@ -274,7 +274,7 @@ section{
 	transform: translate(0,-30px)
 }
 
-.active{
+.inactive{
 	display: none;
 	transition: 0.3s;
 }

@@ -45,8 +45,6 @@
             <div class="col-md-12 back">
                 <section id="geomap" class="s_about light">
                     <h2>{{ name }}</h2>
-                    <div class="buttons"><span class="filterbutsec active"><i class="fas fa-chevron-up"></i></span>
-                    </div>
                     {% include "structure/map_init.xml" %}
                 </section>
             </div>
@@ -83,62 +81,71 @@
             <div class="col-md-12 back">
                 <div class="text_gos"><h1>Результаты государственных экзаменов:</h1></div>
             </div>
-            <div class="col-md-6 back">
-                <section class="EGE">
-                    <h1>ЕГЭ</h1>
-                    <canvas id="EGE" width="100%"></canvas>
-                    <script>
-                        const ege_data = {
-                            labels: [
-                                {% for name, value in subjects_ege.items %}
-                                    {% if value != 0 %}
-                                        "{{ name }}",
-                                    {% endif %}
-                                {% endfor %}
-                            ],
-                            datasets: [{
-                                label: "ЕГЭ",
-                                backgroundColor: "rgba(200,0,0,0.5)",
-                                data: [
-                                    {% for _, value in subjects_ege.items %}
+            {% if has_ege %}
+                <div class="col-md-6 back">
+                    <section class="EGE">
+                        <h1>ЕГЭ</h1>
+                        <canvas id="EGE" width="100%"></canvas>
+                        <script>
+                            const ege_data = {
+                                labels: [
+                                    {% for name, value in subjects_ege.items %}
                                         {% if value != 0 %}
-                                            {{ value }},
+                                            "{{ name }}",
                                         {% endif %}
                                     {% endfor %}
-                                ]
-                            }]
-                        }
-                    </script>
-                </section>
-            </div>
-            <div class="col-md-6 back">
-                <section class="OGE">
-                    <h1>ОГЭ</h1>
-                    <canvas id="OGE" width="100%"></canvas>
-                    <script>
-                        const oge_data = {
-                            labels: [
-                                {% for name, value in subjects_oge.items %}
-                                    {% if value != 0 %}
-                                        "{{ name }}",
-                                    {% endif %}
-                                {% endfor %}
-                            ],
-                            datasets: [{
-                                label: "ОГЭ",
-                                backgroundColor: "rgba(200,0,0,0.5)",
-                                data: [
-                                    {% for _, value in subjects_oge.items %}
+                                ],
+                                datasets: [{
+                                    label: "ЕГЭ",
+                                    backgroundColor: "rgba(200,0,0,0.5)",
+                                    data: [
+                                        {% for _, value in subjects_ege.items %}
+                                            {% if value != 0 %}
+                                                {{ value }},
+                                            {% endif %}
+                                        {% endfor %}
+                                    ]
+                                }]
+                            }
+                        </script>
+                    </section>
+                </div>
+            {% else %}
+                <script>const ege_data = [];</script>
+            {% endif %}
+            {% if has_oge %}
+                <div class="col-md-6 back">
+                    <section class="OGE">
+                        <h1>ОГЭ</h1>
+
+                        <canvas id="OGE" width="100%"></canvas>
+                        <script>
+                            const oge_data = {
+                                labels: [
+                                    {% for name, value in subjects_oge.items %}
                                         {% if value != 0 %}
-                                            {{ value }},
+                                            "{{ name }}",
                                         {% endif %}
                                     {% endfor %}
-                                ]
-                            }]
-                        }
-                    </script>
-                </section>
-            </div>
+                                ],
+                                datasets: [{
+                                    label: "ОГЭ",
+                                    backgroundColor: "rgba(200,0,0,0.5)",
+                                    data: [
+                                        {% for _, value in subjects_oge.items %}
+                                            {% if value != 0 %}
+                                                {{ value }},
+                                            {% endif %}
+                                        {% endfor %}
+                                    ]
+                                }]
+                            }
+                        </script>
+                    </section>
+                </div>
+            {% else %}
+                <script>const oge_data = [];</script>
+            {% endif %}
             <div class="col-md-12 back">
                 <div class="addresses">
                     <h1>Адреса школ</h1>
@@ -149,7 +156,7 @@
                     {% endfor %}
                     {% for address in addresses %}
                         {% if not address.isMain %}
-                            <li>{{ address.fullname}}</li>
+                            <li>{{ address.fullname }}</li>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -179,18 +186,20 @@
 <script src="../static/js/commonSchool.js"></script>
 <script>
     function onClick(e) {
-        e.openPopup();
+        {#e.target.openPopup();#}
+        e.target._popup.openOn(mymap);
     }
 
     console.log("markers starting");
-    {% for address in addresses %}L.marker({{ address.latLng }}).addTo(mymap).on('click', onClick)
-    {% if address.isMain %}.bindPopup("<b>" + {{ address.fullname }} +"</b><br/>Главный корпус");
-        mymap.setView({{ address.latLng }}, 13);
-    {% else %}.bindPopup({{ address.fullname }});
-    {% endif %}
-        console.log("marker:" + {{ address.latLng }});
-    {% endfor %}
+        {% for address in addresses %}var marker = L.marker({{ address.latLng }}).addTo(mymap).on('click', onClick)
+        {% if address.isMain %}.bindPopup("<b>" + "{{ address.fullname }}" + "</b><br/>Главный корпус");
+            mymap.setView({{ address.latLng }}, 13);
+        {% else %}.bindPopup("{{ address.fullname }}");
+        {% endif %}
+            console.log("marker:" + {{ address.latLng }});
+        {% endfor %}
     console.log("markers done");
+    marker.openPopup();
 </script>
 </body>
 </html>

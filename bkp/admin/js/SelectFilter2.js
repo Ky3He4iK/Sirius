@@ -196,11 +196,11 @@ Requires jQuery, core.js, and SelectBox.js.
             var from = $('#' + field_id + '_from');
             var to = $('#' + field_id + '_to');
             // Active if at least one item is selected
-            $('#' + field_id + '_add_link').toggleClass('active', SelectFilter.any_selected(from));
-            $('#' + field_id + '_remove_link').toggleClass('active', SelectFilter.any_selected(to));
+            $('#' + field_id + '_add_link').toggleClass('inactive', SelectFilter.any_selected(from));
+            $('#' + field_id + '_remove_link').toggleClass('inactive', SelectFilter.any_selected(to));
             // Active if the corresponding box isn't empty
-            $('#' + field_id + '_add_all_link').toggleClass('active', from.find('option').length > 0);
-            $('#' + field_id + '_remove_all_link').toggleClass('active', to.find('option').length > 0);
+            $('#' + field_id + '_add_all_link').toggleClass('inactive', from.find('option').length > 0);
+            $('#' + field_id + '_remove_all_link').toggleClass('inactive', to.find('option').length > 0);
         },
         filter_key_press: function(event, field_id) {
             var from = document.getElementById(field_id + '_from');

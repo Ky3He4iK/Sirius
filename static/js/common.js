@@ -14,15 +14,15 @@ $(document).ready(function () {
 
     $(".filterbut").click(function () {
         console.log(".filterbut");
-        $('.filters').toggleClass('active');
-        $('.filterbut').toggleClass('active');
-        $('.filterbutsec').toggleClass('active');
+        $('.filters').removeClass('inactive');
+        $('.filterbut').addClass('inactive');
+        $('.filterbutsec').removeClass('inactive');
     });
     $(".filterbutsec").click(function () {
         console.log(".filterbutsec");
-        $('.filters').toggleClass('active');
-        $('.filterbut').toggleClass('active');
-        $('.filterbutsec').toggleClass('active');
+        $('.filters').addClass('inactive');
+        $('.filterbut').removeClass('inactive');
+        $('.filterbutsec').addClass('inactive');
     });
 });
 

@@ -355,7 +355,7 @@ input[type="submit"], button {
         background-position: 0 -40px;
     }
 
-    .stacked .active.selector-add {
+    .stacked .inactive.selector-add {
         background-position: 0 -60px;
     }
 
@@ -363,7 +363,7 @@ input[type="submit"], button {
         background-position: 0 0;
     }
 
-    .stacked .active.selector-remove {
+    .stacked .inactive.selector-remove {
         background-position: 0 -20px;
     }
 
