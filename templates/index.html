@@ -58,8 +58,9 @@
         </button>
     </div>-->
 </header>
-<section id="geomap" class="s_about light">
-    <h2>Поиск</h2>
+{#<section id="geomap" class="s_about light">#}
+<div id="geomap" class="s_about light">
+    <center><h2>Поиск</h2></center>
     <div class="container">
         <div class="col-md-12">
             <form class="search" action="/main" method="get">
@@ -121,12 +122,46 @@
         </div>
     </section>
     <div class="buttons"><span class="filterbutsec inactive"><i class="fas fa-chevron-up"></i></span></div>
+
+    {#    {% include "structure/map_init.html" %}#}
+    <script>
+        console.log("markers starting");
+        let markerLayer = L.layerGroup([
+            {% for coord in coordinates_showing %}
+                {% if coord.isMain %}
+                    L.marker({{ coord.latLng }}).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + "{{ coord.name }}" + "</a>"),
+                {% endif %}
+            {% endfor %}
+        ]);
+    </script>
     <div class="container">
         <div class="col-md-12">
-            {% include "structure/map_init.html" %}
+            <div id="map" class="map"></div>
+            <script>
+
+                let mapLayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia3kzaGU0aWsiLCJhIjoiY2pvZnA0d3BzMDY3bDN4cXJ4eDg3NjE3NSJ9.SiLSIUGchbNQWCLmwSpTxQ',
+                    {
+                        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>contributors, <ahref="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <ahref="https://www.mapbox.com/">Mapbox</a>',
+                        maxZoom: 16,
+                        id: 'mapbox.streets',
+                        accessToken: 'your.mapbox.access.token'
+                    });
+
+                const mmap = L.map('map', {
+                    center: [55.75497, 37.62432],
+                    zoom: 10,
+                    layers: [mapLayer, markerLayer]
+                });
+                console.log("map done");
+                {% comment %}let marker = L.marker([55.6, 37.5]).addTo(mmap);
+                marker.bindPopup("123");
+                marker.openPopup();{% endcomment %}
+            </script>
         </div>
     </div>
-</section>
+</div>
+
+{#</section>#}
 
 <section id="about" class="s_about dark">
 
@@ -146,21 +181,5 @@
 <script src="/static/lib/scroll/PageScroll2id.min.js"></script>
 <script src="/static/lib/slider/nouislider.min.js"></script>
 <script src="/static/js/common.js"></script>
-<script>
-    function onClick(e) {
-        {#e.target.openPopup();#}
-        e.target._popup.openOn(mymap);
-    }
-
-    console.log("markers starting");
-    {#var markers = new L.MarkerClusterGroup();#}
-    {% for coord in coordinates_showing %}{% if coord.isMain %}
-    var marker_{{ coord.ekis_id }} = L.marker({{ coord.latLng }}).bindPopup("<a href=\"/school?id={{ coord.ekis_id }}\">" + "{{ coord.name }}" + "</a>")
-        .on('click', onClick).addTo(mymap);
-    {#markers.addLayer(marker);#}
-    {% endif %}{% endfor %}
-    {#mymap.addLayer(markers);#}
-    console.log("markers done");
-</script>
 </body>
 </html>

@@ -314,3 +314,10 @@ section h2 {
 .schools ul li {
     font-size: 20px;
 }
+
+.map {
+    margin-top: 50px;
+    height: 600px;
+    width: 100%;
+    z-index: 10;
+}

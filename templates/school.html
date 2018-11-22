@@ -212,14 +212,9 @@
 <script src="/static/lib/scroll/PageScroll2id.min.js"></script>
 <script src="/static/js/commonSchool.js"></script>
 <script>
-    function onClick(e) {
-        e.target.openPopup();
-        {#e.target._popup.openOn(mymap);#}
-    }
-
     console.log("markers starting");
         {% for address in addresses %}var
-            marker_{{ address.ekis_id }} = L.marker({{ address.latLng }}).addTo(mymap).on('click', onClick)
+            marker_{{ address.ekis_id }} = L.marker({{ address.latLng }}).addTo(mymap)
             {% if address.isMain %}.bindPopup("<b>" + "{{ address.fullname }}" + "</b><br/>Главный корпус");
                 mymap.setView({{ address.latLng }}, 13);
             {% else %}.bindPopup("{{ address.fullname }}");
@@ -227,7 +222,6 @@
             console.log("marker:" + {{ address.latLng }});
         {% endfor %}
     console.log("markers done");
-    marker_13806.openPopup();
 </script>
 </body>
 </html>

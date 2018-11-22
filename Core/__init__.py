@@ -183,9 +183,9 @@ def get_school(ekis_id):
         "ogrn": str(t.ogrn[0]),
         "okato": str(t.okato[0]),
         "ou_class": str(t.ou_class[0]),
-        "subjects_ege": {subj: float(t["EGE_" + subj][0]) for subj in _ege if str(t["EGE_" + subj][0]) != 'nan'
+        "subjects_ege": {subj: round(float(t["EGE_" + subj][0]), 2) for subj in _ege if str(t["EGE_" + subj][0]) != 'nan'
                          and int(t["EGE_" + subj][0]) != 0},
-        "subjects_oge": {subj: float(t["OGE_" + subj][0]) for subj in _oge if str(t["OGE_" + subj][0]) != 'nan'
+        "subjects_oge": {subj: round(float(t["OGE_" + subj][0]), 2) for subj in _oge if str(t["OGE_" + subj][0]) != 'nan'
                          and int(t["OGE_" + subj][0]) != 0},
         "addresses": _addresses_to_arr(_addresses[_addresses.ekis_id == ekis_id].reset_index()),
         "schools_like_this": [_get_school_pair(t['Schools_Like_This_' + str(i)][0]) for i in range(1, 11)],
