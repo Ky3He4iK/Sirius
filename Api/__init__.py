@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+import json
 
 import Core
 
@@ -17,7 +18,8 @@ def adv_search(request):
     # try:
         if request.method != 'POST' or "data" not in request.POST:
             return HttpResponse("I'm a teapot, I can't understand you", content_type="text/plain", status=418)
-        return HttpResponse(Core.get_schools_filter_json(request.POST['data']), content_type="application/json")
+        return HttpResponse(Core.get_schools_filter_json(json.loads(request.POST['data'])),
+                            content_type="application/json")
     # except Exception as e:
     #     print(e, e.args)
     #     return HttpResponse("An error occupied: " + str(e), content_type="text/plain", status=500)
